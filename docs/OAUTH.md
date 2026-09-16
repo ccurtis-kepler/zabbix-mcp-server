@@ -206,6 +206,49 @@ For production you have two equally good options:
    limiter and token IP allowlists honour the `X-Forwarded-For` the
    proxy injects.
 
+### Internal-only hostnames: DNS-01 instead of HTTP-01
+
+The Caddy snippet above gets its certificate through the ACME HTTP-01
+challenge, which needs port 80 on `mcp.example.com` reachable from the
+public internet. When the host is not internet-facing the challenge
+fails, Caddy keeps retrying, and no certificate ever appears. Zabbix is
+usually internal, and an MCP server next to it usually is too, so this
+is a common shape rather than an edge case.
+
+An internal CA does not get around the HTTPS requirement, and every MCP
+client would have to trust it, which is usually the harder problem.
+What remains is a publicly trusted certificate on an internal name,
+obtained with the DNS-01 challenge: the ACME server checks a TXT record
+in public DNS and never connects to the host.
+
+Stock Caddy cannot do DNS-01. The DNS provider modules are not in the
+standard binary or the official Docker image, so build one with
+`xcaddy`. Cloudflare as the worked example:
+
+```dockerfile
+FROM caddy:builder AS builder
+RUN xcaddy build --with github.com/caddy-dns/cloudflare
+
+FROM caddy:latest
+COPY --from=builder /usr/bin/caddy /usr/bin/caddy
+```
+
+```caddy
+mcp.internal.example.com {
+    tls {
+        dns cloudflare {env.CF_API_TOKEN}
+    }
+    reverse_proxy 127.0.0.1:8080
+}
+```
+
+`CF_API_TOKEN` is a scoped Cloudflare API token with `Zone:Zone:Read`
+and `Zone:DNS:Edit` on the zone that holds the name, not a global API
+key. The name still has to resolve for your clients, on internal DNS or
+as a public record with a private address; the ACME server only reads
+the TXT record. Modules for other providers live under
+`github.com/caddy-dns` and drop in the same way.
+
 ### Admin portal under the same hostname
 
 If you want to expose the admin portal alongside the MCP endpoint
