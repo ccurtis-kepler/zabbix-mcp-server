@@ -78,6 +78,10 @@ class ServerConfig:
     rate_limit: int = 300
     tools: list[str] | None = None
     disabled_tools: list[str] | None = None
+    # Leave write tools out of the catalog instead of registering them
+    # and refusing them at call time. Default true keeps the current
+    # behaviour.
+    register_write_tools: bool = True
     tls_cert_file: str | None = None
     tls_key_file: str | None = None
     # External URL clients use to reach this server. Overrides the
@@ -592,6 +596,10 @@ def load_config(path: str | Path) -> AppConfig:
     if not isinstance(compact_output_raw, bool):
         raise ConfigError("'compact_output' must be a boolean (true or false)")
 
+    register_write_tools_raw = server_raw.get("register_write_tools", True)
+    if not isinstance(register_write_tools_raw, bool):
+        raise ConfigError("'register_write_tools' must be a boolean (true or false)")
+
     response_max_chars_raw = server_raw.get("response_max_chars", 50000)
     if not isinstance(response_max_chars_raw, int) or response_max_chars_raw < 5000:
         raise ConfigError("'response_max_chars' must be an integer >= 5000")
@@ -612,6 +620,7 @@ def load_config(path: str | Path) -> AppConfig:
         rate_limit=server_raw.get("rate_limit", 300),
         tools=tools_filter,
         disabled_tools=disabled_tools_filter,
+        register_write_tools=register_write_tools_raw,
         tls_cert_file=tls_cert_file,
         tls_key_file=tls_key_file,
         public_url=public_url,
