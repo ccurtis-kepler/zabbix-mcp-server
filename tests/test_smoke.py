@@ -79,6 +79,15 @@ class TestConfig(unittest.TestCase):
         self.assertEqual(cfg.zabbix_servers["prod"].url, "http://z")
         self.assertTrue(cfg.zabbix_servers["prod"].read_only)
 
+    def test_register_write_tools_option(self):
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".toml", delete=False) as f:
+            f.write('[server]\nregister_write_tools = false\n[zabbix.prod]\nurl = "http://z"\napi_token = "tok"\n')
+            f.flush()
+            cfg = load_config(f.name)
+        os.unlink(f.name)
+        self.assertFalse(cfg.server.register_write_tools)
+        self.assertTrue(_make_config().server.register_write_tools)
+
     def test_missing_file_raises(self):
         with self.assertRaises(ConfigError):
             load_config("/nonexistent/path.toml")
@@ -237,6 +246,23 @@ class TestToolRegistration(unittest.TestCase):
             "zabbix_raw_api_call", "health_check",
         ]:
             self.assertIn(expected, names)
+
+    def test_register_write_tools_false_registers_only_read_tools(self):
+        from mcp.server.mcpserver import MCPServer
+        import zabbix_mcp.server as srv
+
+        cfg = _make_config()
+        mgr = ClientManager(cfg)
+        mcp = MCPServer(name="test")
+        count = _register_tools(mcp, mgr, register_write_tools=False)
+        srv._ensure_write_tools_set()
+        names = {t.name for t in mcp._tool_manager.list_tools()}
+        self.assertEqual(len(names), count)
+        self.assertFalse(names & srv._WRITE_TOOLS, sorted(names & srv._WRITE_TOOLS))
+        self.assertTrue({m.tool_name for m in ALL_METHODS if m.read_only} <= names)
+        self.assertIn("health_check", names)
+        self.assertNotIn("host_create", names)
+        self.assertNotIn("zabbix_raw_api_call", names)
 
     def test_tools_have_descriptions(self):
         from mcp.server.mcpserver import MCPServer

@@ -285,6 +285,17 @@ compact_output = true
 #   1. tools     - limit registered tools to relevant prefixes (reduces noise)
 #   2. read_only - block all writes on servers that should be read-only
 #   3. Zabbix User Roles - enforce method-level access control at the API level
+#
+# On a read-only server the write tools are still registered and, for any
+# caller without a read-only token (stdio, the legacy auth_token, a
+# read-write token), still listed: the model sees host_delete, tries it,
+# and is refused. Set this to false to leave them out of the catalog
+# entirely. It skips every write API tool plus action_prepare,
+# action_confirm and zabbix_raw_api_call, the same set a read-only token
+# never sees, and cuts a full catalog by about two thirds (236 tools to
+# 75 today), under client limits such as OpenAI's 128. Call-time checks
+# are unchanged. Default: true.
+# register_write_tools = false
 
 # Filter which tool groups are exposed via MCP.
 # When not set or commented out, all ~225 tools are registered (default).

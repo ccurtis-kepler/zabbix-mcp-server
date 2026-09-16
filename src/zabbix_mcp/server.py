@@ -2140,6 +2140,7 @@ def _register_tools(
     tools_filter: list[str] | None = None,
     disabled_tools: list[str] | None = None,
     *,
+    register_write_tools: bool = True,
     allowed_import_dirs: list[str] | None = None,
     compact_output: bool = True,
     response_max_chars: int = _RESPONSE_MAX_CHARS,
@@ -2157,6 +2158,10 @@ def _register_tools(
 
     When *disabled_tools* is set, tools whose prefix matches an entry
     are excluded. This is applied after the allowlist filter.
+
+    When *register_write_tools* is false, tools that write to Zabbix are
+    not registered at all: every MethodDef with ``read_only=False`` and
+    the extension tools in ``_WRITE_EXTENSION_TOOLS``.
     """
     from zabbix_mcp.token_store import check_token_authorization
 
@@ -2171,6 +2176,8 @@ def _register_tools(
         if disabled_tools is not None:
             if prefix in disabled_tools:
                 continue
+        if not method_def.read_only and not register_write_tools:
+            continue
         handler = _make_tool_handler(
             method_def, client_manager, server_names,
             allowed_import_dirs=allowed_import_dirs,
@@ -2211,6 +2218,8 @@ def _register_tools(
         if tools_filter is not None and tool_name not in tools_filter and "extensions" not in (tools_filter or []):
             return False
         if disabled_tools is not None and (tool_name in disabled_tools or "extensions" in disabled_tools):
+            return False
+        if not register_write_tools and tool_name in _WRITE_EXTENSION_TOOLS:
             return False
         return True
 
@@ -3745,6 +3754,7 @@ def run_server(
 
     tool_count = _register_tools(
         mcp, client_manager, config.server.tools, config.server.disabled_tools,
+        register_write_tools=config.server.register_write_tools,
         allowed_import_dirs=config.server.allowed_import_dirs,
         compact_output=config.server.compact_output,
         response_max_chars=config.server.response_max_chars,
