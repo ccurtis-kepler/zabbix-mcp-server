@@ -638,8 +638,11 @@ def _resolve_source_file(
 
     raw_path = Path(params["source_file"])
 
-    # Resolve first, then validate — avoids TOCTOU race between symlink check and resolve
-    path = raw_path.resolve()
+    # Resolve the directory but keep the final component as written, so
+    # a symlink there reaches the O_NOFOLLOW open below. Resolving the
+    # whole path handed open() the link's target and the check never
+    # fired.
+    path = raw_path.parent.resolve() / raw_path.name
 
     # Validate path is within an allowed directory (prevent path traversal)
     allowed = [Path(d).resolve() for d in allowed_import_dirs]
