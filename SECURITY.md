@@ -107,7 +107,7 @@ When `public_url`, `allowed_origins`, and `allowed_hosts` are all unset on a non
 - Servers are configured as `read_only = true` by default
 - This blocks all write operations (create, update, delete, execute) at the MCP server level, including via the `zabbix_raw_api_call` tool
 - Per-token `read_only` flag provides additional write protection
-- Two-step action approval (`action_prepare` + `action_confirm`) for write operations — 5-minute confirmation window
+- Two-step write flow (`action_prepare` + `action_confirm`): the model gets a redacted preview and a confirmation token that expires after 5 minutes and only works for the caller that prepared it. This is a preview and caller binding, not human approval: the same client can confirm in its next call. If a person has to approve writes, that has to come from the MCP client's own tool-approval prompt or from a change process outside this server
 - Set `read_only = false` only on servers where you explicitly need write access
 
 ### File Access and Uploads
@@ -138,7 +138,7 @@ The route is served outside the MCP endpoint's `TransportSecuritySettings`, so i
 
 ### Audit Logging
 
-- All admin portal actions logged to `/var/log/zabbix-mcp/audit.log` (JSON lines)
+- All admin portal and OAuth actions logged to `/var/log/zabbix-mcp/audit.log` (JSON lines). MCP tool calls are not recorded there: writes made through the tools appear in Zabbix's own audit log under the user that owns the API token, and reads only in the server log with `log_level = "debug"`
 - Tracked actions: login, logout, token CRUD, user CRUD, server CRUD, settings changes, uploads
 - Log rotation at 50 MB with backup scheme
 - Audit log viewable and exportable (CSV) via admin portal
