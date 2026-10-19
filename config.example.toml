@@ -119,6 +119,16 @@ compact_output = true
 # zabbix_raw_api_call is never validated.
 # validate_get_params = true
 
+# Drop, before every create / update tool call, the keys the matching get
+# tool returns but Zabbix refuses on write (default: true): read-only
+# properties (templateid, flags, state, error, lastclock), row identifiers
+# inside nested arrays (operations[].operationid), and sub-objects a
+# selectXxx produced (hosts, triggers). Measured per Zabbix release on real
+# servers (api/write_contracts.json), so "read it, change one thing, write
+# it back" works. Set to false to send every payload as-is.
+# zabbix_raw_api_call is never touched.
+# strip_write_params = true
+
 # Maximum characters per tool response before truncation. Default 50000
 # (roughly 12k tokens), minimum 5000. Increase for workflows that export
 # large Zabbix templates via configuration_export (a typical built-in

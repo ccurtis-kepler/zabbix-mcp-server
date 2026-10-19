@@ -54,6 +54,8 @@ from mcp.types import (
 
 from zabbix_mcp.api import ALL_METHODS
 from zabbix_mcp.api.action_payload import strip_correlation_for_write, strip_for_write
+from zabbix_mcp.api.write_contracts import describe as describe_write_strip
+from zabbix_mcp.api.write_contracts import strip_for_write as strip_measured_readonly
 from zabbix_mcp.api.contracts import (
     compact_output_for, contract_for, describe_extra_params, describe_filter,
     describe_output, describe_search, specialise_params, validate_get_params,
@@ -486,9 +488,10 @@ def _normalize_preprocessing(params: dict[str, Any]) -> dict[str, Any]:
     3. Auto-fills ``error_handler: 0`` and ``error_handler_params: ""`` on
        steps that support error handling but are missing these fields.
        Without this, Zabbix API returns confusing errors.
-    4. Auto-strips ``error_handler`` and ``error_handler_params`` from steps
-       that don't support them (DISCARD_UNCHANGED, DISCARD_UNCHANGED_HEARTBEAT).
-       Without this, Zabbix API rejects the request with "value must be empty".
+    4. Resets ``error_handler`` / ``error_handler_params`` to the default
+       (0, "") on steps that don't support them (DISCARD_UNCHANGED,
+       DISCARD_UNCHANGED_HEARTBEAT): a custom handler is refused there, and
+       6.x refuses the step when the two fields are absent.
     """
     if "preprocessing" not in params or not isinstance(params["preprocessing"], list):
         return params
@@ -532,13 +535,14 @@ def _normalize_preprocessing(params: dict[str, Any]) -> dict[str, Any]:
 
         if isinstance(step_type, int):
             if step_type in _PREPROC_NO_ERROR_HANDLER:
-                # Strip error_handler fields from types that don't support them
-                if "error_handler" in step:
-                    del step["error_handler"]
+                # Types without error handling: 6.x requires the fields to
+                # be present ("missing parameters: error_handler"), 7.x
+                # accepts them as the default (0, ""); a custom handler is
+                # refused everywhere, so it is reset to the default.
+                if step.get("error_handler") not in (0, "0") or step.get("error_handler_params", "") != "":
                     changed = True
-                if "error_handler_params" in step:
-                    del step["error_handler_params"]
-                    changed = True
+                step["error_handler"] = 0
+                step["error_handler_params"] = ""
             else:
                 # Auto-fill default error_handler on types that require it
                 if "error_handler" not in step:
@@ -603,6 +607,72 @@ def _normalize_nested_dchecks(params: dict[str, Any]) -> dict[str, Any]:
     return params
 
 
+# what host.get's selectXxx add to a host, none of which host.update takes
+# (its own write fields - groups, interfaces, macros, tags, inventory,
+# templates - are not in this list)
+_HOST_SELECT_ECHOES = ("items", "triggers", "graphs", "discoveries", "httpTests", "dashboards", "valuemaps",
+                       "parentTemplates", "inheritedTags", "hostDiscovery", "discoveryRule", "hostgroups")
+
+
+# script type -> the fields that kind of script has (besides the common ones)
+_SCRIPT_TYPE_FIELDS = {
+    "0": {"command", "execute_on"},                                            # custom script
+    "1": {"command"},                                                          # IPMI
+    "2": {"command", "username", "authtype", "password", "publickey", "privatekey", "port"},   # SSH
+    "3": {"command", "username", "password", "port"},                          # Telnet
+    "5": {"command", "parameters", "timeout"},                                 # webhook
+    "6": {"url", "new_window"},                                                # URL (7.0+)
+}
+_SCRIPT_TYPE_ALL = set().union(*_SCRIPT_TYPE_FIELDS.values())
+# manual host / event action scripts only (scope 2 / 4), not action operations (1)
+_SCRIPT_MANUAL_FIELDS = {"menu_path", "usrgrpid", "host_access", "confirmation",
+                         "manualinput", "manualinput_prompt", "manualinput_validator",
+                         "manualinput_validator_type", "manualinput_default_value"}
+
+
+def _strip_script_fields(params: dict) -> None:
+    kind = str(params.get("type", ""))
+    keep = _SCRIPT_TYPE_FIELDS.get(kind)
+    if keep is not None:
+        for key in _SCRIPT_TYPE_ALL - keep:
+            params.pop(key, None)
+    if str(params.get("scope", "")) == "1":
+        for key in _SCRIPT_MANUAL_FIELDS:
+            params.pop(key, None)
+
+
+# timeperiod_type -> the fields that kind of period has (besides period)
+_TIMEPERIOD_FIELDS = {
+    "0": {"start_date"},                                     # one time
+    "2": {"every", "start_time"},                            # daily
+    "3": {"every", "dayofweek", "start_time"},               # weekly
+    "4": {"every", "month", "day", "dayofweek", "start_time"},   # monthly
+}
+_TIMEPERIOD_ALL = set().union(*_TIMEPERIOD_FIELDS.values())
+
+
+def _strip_timeperiod(period: dict) -> None:
+    kind = str(period.get("timeperiod_type", ""))
+    keep = _TIMEPERIOD_FIELDS.get(kind)
+    if keep is None:
+        return
+    for key in _TIMEPERIOD_ALL - keep:
+        period.pop(key, None)
+
+
+def _strip_lld_filter(filt: Any) -> None:
+    if not isinstance(filt, dict):
+        return
+    filt.pop("eval_formula", None)
+    if str(filt.get("evaltype")) == "3":
+        return
+    conditions = filt.get("conditions")
+    if isinstance(conditions, list):
+        for cond in conditions:
+            if isinstance(cond, dict):
+                cond.pop("formulaid", None)
+
+
 def _sanitize_create_params(params: dict[str, Any], api_method: str) -> None:
     """Strip read-only and unsupported fields that LLMs copy from YAML templates.
 
@@ -619,17 +689,84 @@ def _sanitize_create_params(params: dict[str, Any], api_method: str) -> None:
                 if isinstance(dep, dict):
                     dep.pop("description", None)
 
-    # discoveryrule: filter.conditions[].formulaid must be empty when
-    # formula type is AND/OR (Zabbix auto-assigns formulaid).
+    # discoveryrule: filter.conditions[].formulaid must be empty unless the
+    # filter is a custom expression (evaltype 3), where it is required; the
+    # same on every override filter. ``eval_formula`` is read-only.
     if api_method in ("discoveryrule.create", "discoveryrule.update",
                       "discoveryruleprototype.create", "discoveryruleprototype.update"):
-        filt = params.get("filter")
-        if isinstance(filt, dict):
-            conditions = filt.get("conditions")
-            if isinstance(conditions, list):
-                for cond in conditions:
-                    if isinstance(cond, dict):
-                        cond.pop("formulaid", None)
+        _strip_lld_filter(params.get("filter"))
+        overrides = params.get("overrides")
+        if isinstance(overrides, list):
+            for override in overrides:
+                if isinstance(override, dict):
+                    _strip_lld_filter(override.get("filter"))
+
+    # regexp: exp_delimiter belongs to expression type 1 ("any character
+    # string included", a delimited list) only; regexp.get returns the
+    # stored "," on every type and regexp.update refuses it elsewhere.
+    if api_method in ("regexp.create", "regexp.update"):
+        expressions = params.get("expressions")
+        if isinstance(expressions, list):
+            for expression in expressions:
+                if isinstance(expression, dict) and str(expression.get("expression_type")) != "1":
+                    expression.pop("exp_delimiter", None)
+
+    # host: host.update ignores the sub-objects a host.get select echoes
+    # (items, triggers, parentTemplates, ...) instead of refusing them, so
+    # the measured contract has nothing on them; sent together on a big host
+    # they still exhaust PHP's memory on 6.0 (HTTP 500 for "Zabbix server"
+    # with 100 items). None of them is a write field: dropped.
+    if api_method in ("host.create", "host.update"):
+        for key in _HOST_SELECT_ECHOES:
+            params.pop(key, None)
+
+    # interfaces: ``details`` is the SNMP settings object; a get returns ``[]``
+    # on every other interface type, and 6.2 refuses that on a host prototype.
+    if api_method in ("host.create", "host.update", "hostprototype.create", "hostprototype.update"):
+        interfaces = params.get("interfaces")
+        if isinstance(interfaces, list):
+            for iface in interfaces:
+                if isinstance(iface, dict) and iface.get("details") in ([], {}):
+                    del iface["details"]
+    if api_method in ("hostinterface.create", "hostinterface.update") and params.get("details") in ([], {}):
+        del params["details"]
+    # host prototype: interfaces exist only with custom_interfaces 1; a get
+    # returns ``interfaces: []`` otherwise and 6.2 refuses the key.
+    if api_method in ("hostprototype.create", "hostprototype.update"):
+        if str(params.get("custom_interfaces", "")) == "0" and params.get("interfaces") == []:
+            del params["interfaces"]
+
+    # script: a get returns every field, the script's type and scope decide
+    # which ones the write accepts (6.x refuses "timeout" on a custom script,
+    # "host_access" on an action-operation script; 7.x ignores them).
+    if api_method in ("script.create", "script.update"):
+        _strip_script_fields(params)
+
+    # user group: userdirectoryid 0 means "none"; 6.2 / 6.4 refuse it unless
+    # the group's frontend access is LDAP.
+    if api_method in ("usergroup.create", "usergroup.update") and str(params.get("userdirectoryid", "")) == "0":
+        del params["userdirectoryid"]
+
+    # authentication (6.0 / 6.2): the LDAP and SAML settings are validated
+    # whenever they are present, even with the method disabled, so the empty
+    # values a get returns come back as "cannot be empty".
+    if api_method == "authentication.update":
+        if str(params.get("ldap_configured", "")) == "0":
+            for key in [k for k in params if k.startswith("ldap_") and k != "ldap_configured" and params[k] in ("", None)]:
+                del params[key]
+        if str(params.get("saml_auth_enabled", "")) == "0":
+            for key in [k for k in params if k.startswith("saml_") and k != "saml_auth_enabled" and params[k] in ("", None)]:
+                del params[key]
+
+    # maintenance: a time period returns every field, its type decides which
+    # ones the write accepts (measured: "unexpected parameter start_time" on
+    # a one-time period, "start_date" on a recurring one).
+    if api_method in ("maintenance.create", "maintenance.update"):
+        periods = params.get("timeperiods")
+        if isinstance(periods, list):
+            for period in periods:
+                if isinstance(period, dict):
+                    _strip_timeperiod(period)
 
     # template.update: vendor is read-only (set during import only)
     if api_method == "template.update":
@@ -1032,7 +1169,16 @@ def _build_zabbix_params(
             params = _normalize_enum_fields(params, method_def.api_method)
             params = _normalize_nested_interfaces(params)
             params = _normalize_nested_dchecks(params)
-            params = _normalize_timestamps(params, tz)
+            if method_def.api_method.startswith("report."):
+                # report.* take active_since / active_till as "YYYY-MM-DD"
+                # strings (and report.get returns them so); the epoch
+                # conversion below would make Zabbix answer "a character
+                # string is expected".
+                dates = {k: params[k] for k in ("active_since", "active_till") if k in params}
+                params = _normalize_timestamps(params, tz)
+                params.update(dates)
+            else:
+                params = _normalize_timestamps(params, tz)
             # Auto-fill default delay for active polling item types on create.
             # Types that do NOT need delay: TRAPPER(2), INTERNAL(5),
             # CALCULATED(15), SNMP_TRAP(17), DEPENDENT(18).
@@ -1114,9 +1260,21 @@ def _build_zabbix_params(
                 continue
             params.setdefault(k, v)
 
+    # trigger.get returns ``expression`` as ``{<functionid>}>0`` unless asked
+    # to expand it; a model can neither read that nor send it back through
+    # trigger.update. Expanded by default, the caller's own value wins.
+    for key, value in _DEFAULT_GET_PARAMS.get(method_def.api_method, {}).items():
+        params.setdefault(key, value)
+
     # Convert ISO timestamps in get params (e.g. time_from, time_till), after
     # the merge so values arriving through extra_params are covered too.
     return _normalize_timestamps(params, tz)
+
+
+_DEFAULT_GET_PARAMS: dict[str, dict[str, Any]] = {
+    "trigger.get": {"expandExpression": True},
+    "triggerprototype.get": {"expandExpression": True},
+}
 
 
 # API methods that support valuemap assignment by name.
@@ -1795,6 +1953,7 @@ def _make_tool_handler(
     compact_output: bool = True,
     response_max_chars: int = _RESPONSE_MAX_CHARS,
     validate_get: bool = True,
+    strip_write: bool = True,
 ):
     """Create a tool handler with a proper typed signature for MCPServer schema generation."""
 
@@ -1881,6 +2040,13 @@ def _make_tool_handler(
                 _resolve_valuemap_by_name,
                 params, method_def.api_method, client_manager, server_name,
             )
+            if strip_write and not method_def.read_only:
+                # What X.get returns and X.update / X.create refuse, measured
+                # per release (api/write_contracts.py); [server].strip_write_params
+                # = false turns this off, zabbix_raw_api_call is never touched.
+                dropped = strip_measured_readonly(method_def.api_method, params, zabbix_version)
+                if dropped:
+                    logger.debug("%s: dropped read-only keys %s", method_def.api_method, ", ".join(dropped))
             params = await asyncio.to_thread(
                 _sanitize_action_payload,
                 params, method_def.api_method, client_manager, server_name,
@@ -1978,6 +2144,7 @@ def _register_tools(
     compact_output: bool = True,
     response_max_chars: int = _RESPONSE_MAX_CHARS,
     validate_get: bool = True,
+    strip_write: bool = True,
     config: AppConfig | None = None,
     transport: str = "stdio",
 ) -> int:
@@ -2010,6 +2177,7 @@ def _register_tools(
             compact_output=compact_output,
             response_max_chars=response_max_chars,
             validate_get=validate_get,
+            strip_write=strip_write,
         )
         # Build MCP tool annotations based on method characteristics
         tool_annotations: dict[str, Any] = {}
@@ -2023,10 +2191,17 @@ def _register_tools(
                 tool_annotations["idempotentHint"] = True
         tool_annotations["openWorldHint"] = True
 
+        description = method_def.description
+        if strip_write and not method_def.read_only:
+            # one sentence on the tools whose payload the measured write
+            # contract trims (api/write_contracts.py)
+            note = describe_write_strip(method_def.api_method)
+            if note:
+                description = f"{description.rstrip()} {note}"
         mcp.add_tool(
             handler,
             name=method_def.tool_name,
-            description=method_def.description,
+            description=description,
             annotations=ToolAnnotations(**tool_annotations),
         )
         count += 1
@@ -3574,6 +3749,7 @@ def run_server(
         compact_output=config.server.compact_output,
         response_max_chars=config.server.response_max_chars,
         validate_get=config.server.validate_get_params,
+        strip_write=config.server.strip_write_params,
         config=config,
         # Effective transport, not config.server.transport - the CLI can
         # override it, and stdio has no HTTP listener to link to.

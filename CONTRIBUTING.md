@@ -14,8 +14,10 @@ pip install -e .
 
 ## Running Tests
 
+The suite is plain `unittest` (no pytest in the repository or the venv); new tests go into a `unittest.TestCase` so `discover` picks them up.
+
 ```bash
-python -m pytest tests/test_smoke.py -v
+python -m unittest discover -s tests -p "test_*.py"
 ```
 
 ## Project Structure

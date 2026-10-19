@@ -598,14 +598,14 @@ class TestPreprocessingNormalization(unittest.TestCase):
         self.assertEqual(result["preprocessing"][0]["error_handler"], 2)
         self.assertEqual(result["preprocessing"][0]["error_handler_params"], "0")
 
-    # --- auto-strip error_handler from DISCARD steps ---
+    # --- DISCARD steps carry the default error handler (6.x needs it present, a custom one is refused) ---
     def test_strip_error_handler_from_discard_unchanged(self):
         params = {"preprocessing": [
             {"type": 19, "params": "", "error_handler": 0, "error_handler_params": ""},
         ]}
         result = _normalize_preprocessing(params)
-        self.assertNotIn("error_handler", result["preprocessing"][0])
-        self.assertNotIn("error_handler_params", result["preprocessing"][0])
+        self.assertEqual(result["preprocessing"][0]["error_handler"], 0)
+        self.assertEqual(result["preprocessing"][0]["error_handler_params"], "")
 
     def test_strip_error_handler_from_discard_heartbeat(self):
         params = {"preprocessing": [
@@ -614,8 +614,8 @@ class TestPreprocessingNormalization(unittest.TestCase):
         ]}
         result = _normalize_preprocessing(params)
         self.assertEqual(result["preprocessing"][0]["type"], 20)
-        self.assertNotIn("error_handler", result["preprocessing"][0])
-        self.assertNotIn("error_handler_params", result["preprocessing"][0])
+        self.assertEqual(result["preprocessing"][0]["error_handler"], 0)
+        self.assertEqual(result["preprocessing"][0]["error_handler_params"], "")
 
     def test_no_strip_from_other_types(self):
         """Non-DISCARD type with error_handler → keep it."""
@@ -629,8 +629,8 @@ class TestPreprocessingNormalization(unittest.TestCase):
         """DISCARD step without error_handler → nothing to strip, no auto-fill."""
         params = {"preprocessing": [{"type": 20, "params": "3600"}]}
         result = _normalize_preprocessing(params)
-        self.assertNotIn("error_handler", result["preprocessing"][0])
-        self.assertNotIn("error_handler_params", result["preprocessing"][0])
+        self.assertEqual(result["preprocessing"][0]["error_handler"], 0)
+        self.assertEqual(result["preprocessing"][0]["error_handler_params"], "")
 
     def test_mixed_steps_auto_fill_and_strip(self):
         """Pipeline with JSONPATH + DISCARD: auto-fill on first, strip on second."""
@@ -644,8 +644,8 @@ class TestPreprocessingNormalization(unittest.TestCase):
         self.assertEqual(result["preprocessing"][0]["error_handler"], 0)
         self.assertEqual(result["preprocessing"][0]["error_handler_params"], "")
         # DISCARD: stripped
-        self.assertNotIn("error_handler", result["preprocessing"][1])
-        self.assertNotIn("error_handler_params", result["preprocessing"][1])
+        self.assertEqual(result["preprocessing"][1]["error_handler"], 0)
+        self.assertEqual(result["preprocessing"][1]["error_handler_params"], "")
 
 
 class TestSourceFile(unittest.TestCase):

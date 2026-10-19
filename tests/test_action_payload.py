@@ -153,6 +153,45 @@ class TestStripForWrite(unittest.TestCase):
         self.assertEqual(out["operations"], [{"type": "0"}])
 
 
+NESTED_OPERATION = json.loads('''{"operationid": "42", "actionid": "3", "operationtype": "1", "esc_period": "0",
+ "esc_step_from": "1", "esc_step_to": "1", "evaltype": "0",
+ "opconditions": [{"opconditionid": "71", "operationid": "42", "conditiontype": "14", "operator": "0", "value": "0"}],
+ "opcommand": {"scriptid": "7"},
+ "opcommand_hst": [{"opcommand_hstid": "81", "hostid": "0"}, {"opcommand_hstid": "82", "hostid": "10101"}],
+ "opcommand_grp": [{"opcommand_grpid": "91", "groupid": "20"}]}''')
+
+
+class TestNestedOperationIds(unittest.TestCase):
+    """#101 / PR #102 (@alexpostnik): the row identifiers inside operation
+    conditions and command targets, measured refused on 6.0.48, 7.0.30 and
+    7.4.14 (``unexpected parameter "opconditionid"``)."""
+
+    def test_nested_ids_go_values_stay(self):
+        out = strip_for_write({"actionid": "3", "eventsource": "0", "operations": [copy.deepcopy(NESTED_OPERATION)]})
+        self.assertEqual(out["operations"][0], {
+            "operationtype": "1", "esc_period": "0", "esc_step_from": "1", "esc_step_to": "1", "evaltype": "0",
+            "opconditions": [{"conditiontype": "14", "operator": "0", "value": "0"}],
+            "opcommand": {"scriptid": "7"},
+            "opcommand_hst": [{"hostid": "0"}, {"hostid": "10101"}],
+            "opcommand_grp": [{"groupid": "20"}]})
+
+    def test_only_those_keys_and_tolerant_of_odd_shapes(self):
+        out = strip_for_write({"eventsource": "0", "operations": [
+            {"opconditions": [None, 0, {"opconditionid": "1", "custom": "keep"}],
+             "opcommand_hst": "not a list", "opcommand_grp": [{"opcommand_grpid": "9", "groupid": "4", "x": 1}]},
+            None, "text"]})
+        self.assertEqual(out["operations"][0], {"opconditions": [None, 0, {"custom": "keep"}],
+                                                "opcommand_hst": "not a list",
+                                                "opcommand_grp": [{"groupid": "4", "x": 1}]})
+        self.assertEqual(out["operations"][1:], [None, "text"])
+
+    def test_explicit_empty_arrays_stay(self):
+        out = strip_for_write({"eventsource": "0", "operations": [
+            {"operationtype": "1", "opconditions": [], "opcommand_hst": [], "opcommand_grp": []}]})
+        self.assertEqual(out["operations"][0], {"operationtype": "1", "opconditions": [], "opcommand_hst": [],
+                                                "opcommand_grp": []})
+
+
 class TestThroughRegisteredTools(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -222,6 +261,25 @@ class TestThroughRegisteredTools(unittest.TestCase):
         params = sent[-1][1]
         self.assertIn("esc_period", params)                 # source unknown: not touched
         self.assertNotIn("eval_formula", params["filter"])  # generic rules still applied
+
+    def test_nested_ids_through_the_tools(self):
+        for tool, source in (("action_update", "0"), ("action_update", None), ("action_create", "TRIGGER")):
+            payload = {"name": "n", "operations": [copy.deepcopy(NESTED_OPERATION)],
+                       "recovery_operations": [copy.deepcopy(NESTED_OPERATION)]}
+            if tool == "action_update":
+                payload["actionid"] = "3"
+            if source is not None:
+                payload["eventsource"] = source
+            sent = self._call(tool, {"params": payload}, lookup=[{"eventsource": "0"}])
+            method, params = sent[-1]
+            self.assertEqual(method, tool.replace("_", "."))
+            for op in params["operations"] + params["recovery_operations"]:
+                self.assertEqual(op["opconditions"] if "opconditions" in op else [], [] if "opconditions" not in op
+                                 else [{"conditiontype": "14", "operator": "0", "value": "0"}])
+                self.assertEqual(op["opcommand_hst"], [{"hostid": "0"}, {"hostid": "10101"}])
+                self.assertEqual(op["opcommand_grp"], [{"groupid": "20"}])
+                self.assertNotIn("operationid", op)
+            self.assertNotIn("opconditions", params["recovery_operations"][0])   # recovery: no conditions
 
     def test_descriptions_carry_the_filter_contract(self):
         tools = {t.name: t for t in self.mcp._tool_manager.list_tools()}

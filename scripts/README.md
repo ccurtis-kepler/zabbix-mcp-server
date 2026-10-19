@@ -77,6 +77,34 @@ returns beyond the documentation (and what it refuses or ignores) is
 marked in the shipped file. Releases before 6.4 are logged in with the
 body `auth` field automatically.
 
+## `roundtrip_fixtures.py` / `audit_write_roundtrip_live.py` / `build_write_contracts.py` - write contracts
+
+`src/zabbix_mcp/api/write_contracts.json` (what `X.update` / `X.create`
+refuse of what `X.get` returns, so the server can drop it before the call)
+is measured the same way:
+
+```bash
+# on each release: create an object of every kind with every optional
+# sub-structure filled, send every object back through its update
+# unchanged, record what the server refuses, delete the fixtures again;
+# writes write_roundtrip_observed_<version>.json into the current directory
+python3 scripts/audit_write_roundtrip_live.py https://zabbix.example.com Admin <password> --fixtures
+
+# the fixture set on its own (--keep leaves it on the server, --purge only
+# deletes what an interrupted run left behind: every object named rt-...)
+python3 scripts/roundtrip_fixtures.py https://zabbix.example.com Admin <password> [--keep | --purge]
+
+# merge the per-release files into the shipped contract
+python3 scripts/build_write_contracts.py scripts/write_contracts_src/write_roundtrip_observed_*.json
+```
+
+The audit sends every object back *unchanged*, so nothing on the server
+is altered by the probes; the only writes are the `rt-` fixtures, which
+are deleted at the end. Run it against a test instance, never production:
+it is thousands of API calls. A key is part of the contract only when every
+plain object that carried it was refused with it on that release; what the
+audit sees on templated or discovered objects only is left out on purpose.
+
 ## Pre-release ritual (recap)
 
 Both runners must report green before tagging a release. Plus the OS
