@@ -19,7 +19,7 @@
     <a href="https://github.com/initMAX/zabbix-mcp-server/releases"><img alt="Version" src="https://img.shields.io/github/v/release/initMAX/zabbix-mcp-server?color=%231f65f4&label=version"></a>&nbsp;
     <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-AGPL--3.0-blue"></a>&nbsp;
     <img alt="Python" src="https://img.shields.io/badge/python-3.10%2B-blue">&nbsp;
-    <img alt="Tools" src="https://img.shields.io/badge/tools-237-green">&nbsp;
+    <img alt="Tools" src="https://img.shields.io/badge/tools-255-green">&nbsp;
     <img alt="Zabbix" src="https://img.shields.io/badge/zabbix-5.0%E2%80%948.0-red">&nbsp;
     <a href="https://safeskill.dev/scan/initmax-zabbix-mcp-server"><img alt="SafeSkill" src="https://img.shields.io/badge/SafeSkill-100%2F100_Verified%20Safe-brightgreen"></a>&nbsp;
     <a href="https://mcptoplist.com/server/glama%2FinitMAX%2Fzabbix-mcp-server"><img alt="MCP Toplist" src="https://mcptoplist.com/badge/glama%2FinitMAX%2Fzabbix-mcp-server.svg"></a>
@@ -1011,7 +1011,7 @@ All three paths write to the same `/etc/zabbix-mcp/templates/` directory and are
 
 By default the server exposes all 255 tools (241 Zabbix API + 14 extension). Each tool's JSON schema (name, description, 20-40 optional parameters) adds roughly 400-500 tokens to the MCP tool catalog that is sent to the LLM at the start of every session. **With the default "all tools" configuration, the catalog alone costs ~100k tokens before your first prompt even reaches the model.** This is the single largest driver of token usage - far more than compact vs. extended response mode.
 
-**Read-only setups pay for nothing they cannot use.** When every server the caller can reach has `read_only = true` (the default), the 160 write tools are left out of `tools/list` for that caller (since v1.41, [#83](https://github.com/initMAX/zabbix-mcp-server/issues/83)); a read-only token never saw them. `[server].register_write_tools = false` does the same unconditionally at registration time, which also keeps the catalog under a client's tool limit (OpenAI's 128). The call-time checks are unchanged either way.
+**Read-only setups pay for nothing they cannot use.** When every server the caller can reach has `read_only = true` (the default), the 169 write tools are left out of `tools/list` for that caller (since v1.41, [#83](https://github.com/initMAX/zabbix-mcp-server/issues/83)); a read-only token never saw them. `[server].register_write_tools = false` does the same unconditionally at registration time, which also keeps the catalog under a client's tool limit (OpenAI's 128). The call-time checks are unchanged either way.
 
 **Fix:** add a `tools` allowlist in `[server]` to expose only what you need:
 
