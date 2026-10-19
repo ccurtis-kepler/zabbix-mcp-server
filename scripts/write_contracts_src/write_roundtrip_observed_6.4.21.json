@@ -6664,6 +6664,300 @@
     }
    },
    "stuck": []
+  },
+  "service": {
+   "samples": 2,
+   "rows": 2,
+   "ok": 2,
+   "paths": {
+    "children[].algorithm": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "children[].created_at": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "children[].description": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "children[].name": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "children[].propagation_rule": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "children[].propagation_value": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "children[].readonly": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "children[].sortorder": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "children[].status": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "children[].uuid": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "children[].weight": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "created_at": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 2,
+       "present": 2
+      }
+     },
+     "count": 2,
+     "present": 2
+    },
+    "parents[].algorithm": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "parents[].created_at": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "parents[].description": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "parents[].name": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "parents[].propagation_rule": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "parents[].propagation_value": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "parents[].readonly": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "parents[].sortorder": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "parents[].status": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "parents[].uuid": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "parents[].weight": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 1,
+       "present": 1
+      }
+     },
+     "count": 1,
+     "present": 1
+    },
+    "problem_events": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 2,
+       "present": 2
+      }
+     },
+     "count": 2,
+     "present": 2
+    },
+    "readonly": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 2,
+       "present": 2
+      }
+     },
+     "count": 2,
+     "present": 2
+    },
+    "status": {
+     "kind": "unexpected",
+     "categories": {
+      "plain": {
+       "refused": 2,
+       "present": 2
+      }
+     },
+     "count": 2,
+     "present": 2
+    }
+   },
+   "stuck": []
   }
  }
 }

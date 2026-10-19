@@ -80,7 +80,8 @@ _HAND_RULED = ("action.update", "correlation.update")
 # that no caller can mean: a host's auto_compress (a proxy setting the host
 # table still carried up to 6.4), an image's type (fixed at creation).
 _IMMUTABLE_ANYWAY = {("host.update", "auto_compress"), ("image.update", "imagetype"),
-                     ("module.update", "id"), ("module.update", "relative_path")}   # a module's id / path are its file
+                     ("module.update", "id"), ("module.update", "relative_path"),   # a module's id / path are its file
+                     ("service.update", "created_at")}   # set by the server, documented without the read-only mark
 
 # Measured refused on every fixture row but known to depend on the row:
 # a host prototype's SNMP interface needs ``details`` (the fixture rows were

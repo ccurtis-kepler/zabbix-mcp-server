@@ -96,11 +96,11 @@ _ALL_GROUPS = list(TOOL_GROUPS.keys())
 # Build tool data for templates (groups with their child tool prefixes)
 _TOOL_DATA = []
 _GROUP_DESCRIPTIONS = {
-    "monitoring": "Hosts, problems, triggers, items, events, history, trends, SLA, dashboards, maps",
+    "monitoring": "Hosts, problems, triggers, items, events, history, trends, SLA, business services, APM traces / spans / logs / metrics (8.0)",
     "data_collection": "Templates, template groups, dashboards, value maps, configuration",
     "alerts": "Actions, media types, alert history, script execution",
     "users": "Users, user groups, roles, tokens, authentication",
-    "administration": "Settings, proxies, housekeeping, audit log, connectors, modules",
+    "administration": "Settings, proxies, housekeeping, audit log, connectors, modules, API version, server info, mobile devices (8.0)",
     "extensions": "Graph render, anomaly detection, capacity forecast, PDF reports, raw API call, action approval",
 }
 for _gname, _gtools in TOOL_GROUPS.items():

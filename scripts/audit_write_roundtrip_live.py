@@ -99,6 +99,8 @@ OBJECTS: dict[str, tuple[str | None, dict]] = {
     "report": ("reportid", {}),
     "role": ("roleid", {}),
     "script": ("scriptid", {}),
+    "service": ("serviceid", {}),
+    "ceprule": ("cep_ruleid", {}),
     "settings": (None, {}),
     "sla": ("slaid", {}),
     "template": ("templateid", {}),
@@ -175,7 +177,9 @@ def _get_params(obj: str, version: str) -> dict:
     contract = CONTRACTS.get(f"{obj}.get")
     if contract:
         for name, spec in contract.selects.items():
-            if spec.available(version):
+            # "query" selects take "extend"; the others want their own
+            # object (service.get selectStatusTimeline wants periods)
+            if spec.available(version) and spec.type == "query":
                 params[name] = "extend"
     params.update(OBJECTS[obj][1])
     return params

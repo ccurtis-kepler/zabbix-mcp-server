@@ -175,7 +175,7 @@ class TestShippedContract(unittest.TestCase):
         self.assertNotIn("users[].userid", paths["usergroup.update"])
         # the interface quartet is refused from 7.0 on, 6.x ignores it
         rules = {".".join(r.path): r for r in wc.WRITE_CONTRACTS["hostinterface.update"]}
-        self.assertEqual(rules["available"].releases, ("7.0", "7.2", "7.4"))
+        self.assertEqual(rules["available"].releases, ("7.0", "7.2", "7.4", "8.0"))
         # a documented writable property is never stripped on an "unexpected" alone
         self.assertNotIn("username", paths.get("script.update", set()))
         self.assertNotIn("filter", paths["discoveryrule.update"])

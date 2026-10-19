@@ -29,7 +29,7 @@ sys.path.insert(0, "src")
 
 from zabbix_mcp.client import ClientManager  # noqa: E402
 from zabbix_mcp.config import AppConfig, ServerConfig, ZabbixServerConfig  # noqa: E402
-from zabbix_mcp.api.versions import METHOD_REMOVED
+from zabbix_mcp.api.versions import unavailable_reason, METHOD_REMOVED
 from zabbix_mcp.server import _refuse_if_unavailable, _register_tools  # noqa: E402
 
 REMOVED_TOOLS = {
@@ -43,9 +43,26 @@ REMOVED_TOOLS = {
 
 class TestRefuseIfRemoved(unittest.TestCase):
     def test_table_matches_the_8_0_changes_page(self):
-        self.assertEqual(set(METHOD_REMOVED), {
+        self.assertEqual({m for m, (release, _) in METHOD_REMOVED.items() if release == "8.0"}, {
             "host.massupdate", "hostgroup.massupdate", "template.massupdate",
             "templategroup.massupdate", "hostinterface.replacehostinterfaces"})
+
+    def test_legacy_objects_are_dated_from_the_reference_index(self):
+        # the 5.0 ... 8.0 reference index pages: last release with the object page + 1
+        expected = {"templatescreen.get": "5.2", "templatescreenitem.get": "5.2", "settings.getglobal": "5.4",
+                    "application.get": "5.4", "screen.get": "5.4", "screenitem.get": "5.4",
+                    "service.getsla": "6.0", "service.adddependencies": "6.0", "service.addtimes": "6.0",
+                    "trigger.adddependencies": "6.2", "trigger.deletedependencies": "6.2",
+                    "discoveryrule.copy": "7.2"}
+        for method, release in expected.items():
+            with self.subTest(method=method):
+                self.assertEqual(METHOD_REMOVED[method][0], release)
+                self.assertTrue(METHOD_REMOVED[method][1])
+        # a raw call on a newer server gets the replacement, an older one passes
+        self.assertIn("item.get", unavailable_reason("application.get", "7.4.14"))
+        self.assertIsNone(unavailable_reason("application.get", "5.0.47"))
+        self.assertIn("sla.getsli", unavailable_reason("service.getsla", "6.0.48"))
+        self.assertIsNone(unavailable_reason("service.getsla", "5.4.12"))
 
     def test_only_on_8_0_and_later(self):
         from mcp.server.mcpserver.exceptions import ToolError

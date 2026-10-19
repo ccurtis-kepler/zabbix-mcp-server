@@ -27,7 +27,7 @@ import time
 from typing import Any
 
 from zabbix_utils import ZabbixAPI
-from zabbix_utils.exceptions import ProcessingError
+from zabbix_utils.exceptions import APINotSupported, ProcessingError
 
 # OpenSSL 3.0 (RHEL 9, Ubuntu 22.04+) disables unsafe legacy
 # renegotiation by default. Some older Zabbix HTTPS frontends still
@@ -154,6 +154,22 @@ class _RateLimiter:
             self._buckets[key] = calls
 
 
+_NEWER_RE = re.compile(r"Version of Zabbix API \[(\d+)\.(\d+)[^\]]*\] was not tested")
+
+
+def _newer_than_library(exc: BaseException) -> bool:
+    """True when zabbix-utils refused a release above its tested maximum
+    (its message names the version), not one below its minimum."""
+    from zabbix_utils.version import __max_supported__
+    if not isinstance(exc, APINotSupported):
+        return False
+    match = _NEWER_RE.search(str(exc))
+    if not match:
+        return False
+    major, minor = int(match.group(1)), int(match.group(2))
+    return (major, minor) > tuple(int(x) for x in str(__max_supported__).split("."))
+
+
 class ClientManager:
     """Manages connections to multiple Zabbix servers with lazy connect and auto-reconnect.
 
@@ -221,12 +237,31 @@ class ClientManager:
         # Zabbix 5.0-5.2 - and never widened for token auth, which keeps
         # the operator-controlled skip_version_check as before.
         legacy = getattr(srv, "legacy_auth", False)
-        api = ZabbixAPI(
-            url=srv.url,
-            ssl_context=_build_ssl_context(srv.verify_ssl),
-            skip_version_check=srv.skip_version_check or legacy,
-            timeout=timeout,
-        )
+        try:
+            api = ZabbixAPI(
+                url=srv.url,
+                ssl_context=_build_ssl_context(srv.verify_ssl),
+                skip_version_check=srv.skip_version_check or legacy,
+                timeout=timeout,
+            )
+        except APINotSupported as exc:
+            # zabbix-utils also refuses a release NEWER than the one it was
+            # tested with (2.0.4 stops at 7.4, Zabbix 8.0 is on its way).
+            # This server carries its own 5.0 ... 8.0 catalog, so a newer
+            # frontend is connected anyway, with a warning; the lower gate
+            # (below 6.0) stays as it was.
+            if not _newer_than_library(exc):
+                raise
+            logger.warning(
+                "Zabbix server '%s' reports API version %s, newer than the zabbix-utils "
+                "library was tested with; connecting anyway", name, _NEWER_RE.search(str(exc)).group(0).split("[")[1].split("]")[0],
+            )
+            api = ZabbixAPI(
+                url=srv.url,
+                ssl_context=_build_ssl_context(srv.verify_ssl),
+                skip_version_check=True,
+                timeout=timeout,
+            )
         if legacy:
             # Hard version lock. Password login exists for releases that
             # have no API tokens; on anything that has them it is just a

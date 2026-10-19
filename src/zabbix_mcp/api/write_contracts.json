@@ -6,9 +6,48 @@
   "6.4",
   "7.0",
   "7.2",
-  "7.4"
+  "7.4",
+  "8.0"
  ],
  "methods": {
+  "ceprule.create": {
+   "strip": {
+    "error": {
+     "releases": [
+      "8.0"
+     ]
+    },
+    "filter.eval_formula": {
+     "releases": [
+      "8.0"
+     ]
+    },
+    "operations[].filter.eval_formula": {
+     "releases": [
+      "8.0"
+     ]
+    }
+   }
+  },
+  "ceprule.update": {
+   "strip": {
+    "error": {
+     "releases": [
+      "8.0"
+     ]
+    },
+    "filter.eval_formula": {
+     "releases": [
+      "8.0"
+     ]
+    },
+    "operations[].filter.eval_formula": {
+     "releases": [
+      "8.0"
+     ]
+    }
+   }
+  },
   "dashboard.update": {
    "strip": {
     "uuid": {}
@@ -18,12 +57,14 @@
    "strip": {
     "discoveryData": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRulePrototypes": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "error": {},
@@ -31,42 +72,48 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "flags": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "graphs": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hostPrototypes": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "items": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "overrides[].filter.eval_formula": {
@@ -75,7 +122,8 @@
       "6.2",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "state": {},
@@ -84,7 +132,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -95,17 +144,20 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryData": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRulePrototypes": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "error": {},
@@ -113,70 +165,80 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "flags": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "graphs": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "history": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hostPrototypes": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hostid": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "inventory_link": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "items": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "logtimefmt": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "overrides[].filter.eval_formula": {
@@ -185,44 +247,55 @@
       "6.2",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "state": {},
+    "storage_mode": {
+     "releases": [
+      "8.0"
+     ]
+    },
     "templateid": {},
     "trends": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "triggers": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "units": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "value_type": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "valuemapid": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -231,62 +304,74 @@
    "strip": {
     "discoveryRule": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRulePrototype": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRulePrototypes": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "filter.eval_formula": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "flags": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "graphs": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hostPrototypes": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "items": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "overrides[].filter.eval_formula": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templateid": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "triggers": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -295,102 +380,127 @@
    "strip": {
     "discoveryRule": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRulePrototype": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRulePrototypes": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "filter.eval_formula": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "flags": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "graphs": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "history": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hostPrototypes": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hostid": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "inventory_link": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "items": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "logtimefmt": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "overrides[].filter.eval_formula": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
+     ]
+    },
+    "storage_mode": {
+     "releases": [
+      "8.0"
      ]
     },
     "templateid": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "trends": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "triggers": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "units": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "value_type": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "valuemapid": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -401,7 +511,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -409,7 +520,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     }
@@ -421,7 +533,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -429,7 +542,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     }
@@ -491,7 +605,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -499,7 +614,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -507,7 +623,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -515,7 +632,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -534,7 +652,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -568,7 +687,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -576,7 +696,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -584,7 +705,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -592,7 +714,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -611,7 +734,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -620,7 +744,8 @@
    "strip": {
     "discoveryData": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRule": {
@@ -634,7 +759,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "flags": {},
@@ -642,7 +768,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "groupDiscovery": {
@@ -656,7 +783,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts": {},
@@ -676,7 +804,8 @@
    "strip": {
     "discoveryData": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRule": {
@@ -690,7 +819,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "flags": {},
@@ -698,7 +828,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "groupDiscovery": {
@@ -712,7 +843,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts": {},
@@ -734,7 +866,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -742,7 +875,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -750,7 +884,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -758,7 +893,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -766,7 +902,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     }
@@ -778,7 +915,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -786,7 +924,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -794,7 +933,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -802,7 +942,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     },
@@ -810,7 +951,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ],
      "kind": "opaque: Incorrect arguments passed to function."
     }
@@ -820,18 +962,26 @@
    "strip": {
     "discoveryData": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRule": {},
     "discoveryRulePrototype": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "flags": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
+     ]
+    },
+    "inheritedTags": {
+     "releases": [
+      "8.0"
      ]
     },
     "interfaces[].available": {},
@@ -885,7 +1035,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templates[].name": {},
@@ -900,7 +1051,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templates[].proxy_hostid": {
@@ -914,12 +1066,14 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templates[].readme": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templates[].status": {},
@@ -934,7 +1088,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templates[].vendor_version": {
@@ -942,12 +1097,14 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templates[].wizard_ready": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -956,18 +1113,26 @@
    "strip": {
     "discoveryData": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRule": {},
     "discoveryRulePrototype": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "flags": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
+     ]
+    },
+    "inheritedTags": {
+     "releases": [
+      "8.0"
      ]
     },
     "interfaces[].available": {},
@@ -1021,7 +1186,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templates[].name": {},
@@ -1036,7 +1202,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templates[].proxy_hostid": {
@@ -1050,12 +1217,14 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templates[].readme": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templates[].status": {},
@@ -1071,7 +1240,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templates[].vendor_version": {
@@ -1079,12 +1249,14 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templates[].wizard_ready": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -1097,6 +1269,11 @@
   "httptest.create": {
    "strip": {
     "hosts": {},
+    "inheritedTags": {
+     "releases": [
+      "8.0"
+     ]
+    },
     "nextcheck": {
      "releases": [
       "6.0",
@@ -1112,6 +1289,11 @@
    "strip": {
     "hostid": {},
     "hosts": {},
+    "inheritedTags": {
+     "releases": [
+      "8.0"
+     ]
+    },
     "nextcheck": {
      "releases": [
       "6.0",
@@ -1152,7 +1334,8 @@
    "strip": {
     "discoveryData": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRule": {
@@ -1160,7 +1343,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "error": {},
@@ -1169,7 +1353,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "graphs": {
@@ -1177,7 +1362,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts": {
@@ -1185,7 +1371,13 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
+     ]
+    },
+    "inheritedTags": {
+     "releases": [
+      "8.0"
      ]
     },
     "interfaces": {
@@ -1193,7 +1385,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "itemDiscovery": {
@@ -1201,7 +1394,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "lastclock": {
@@ -1209,7 +1403,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "lastns": {
@@ -1217,7 +1412,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "lastvalue": {
@@ -1225,14 +1421,16 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "name_resolved": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "prevvalue": {
@@ -1240,7 +1438,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "state": {},
@@ -1250,7 +1449,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "valuemap": {
@@ -1258,7 +1458,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -1267,7 +1468,8 @@
    "strip": {
     "discoveryData": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRule": {
@@ -1275,21 +1477,24 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "enabled_lifetime": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "enabled_lifetime_type": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "error": {},
@@ -1298,7 +1503,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "flags": {
@@ -1306,7 +1512,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "formula": {
@@ -1314,7 +1521,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "graphs": {
@@ -1322,7 +1530,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hostid": {
@@ -1330,7 +1539,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts": {
@@ -1338,7 +1548,13 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
+     ]
+    },
+    "inheritedTags": {
+     "releases": [
+      "8.0"
      ]
     },
     "interfaces": {
@@ -1346,7 +1562,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "itemDiscovery": {
@@ -1354,7 +1571,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "lastclock": {
@@ -1362,7 +1580,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "lastns": {
@@ -1370,7 +1589,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "lastvalue": {
@@ -1378,7 +1598,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "lifetime": {
@@ -1386,21 +1607,24 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "lifetime_type": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "name_resolved": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "prevvalue": {
@@ -1408,7 +1632,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "state": {},
@@ -1418,7 +1643,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "valuemap": {
@@ -1426,7 +1652,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -1435,7 +1662,8 @@
    "strip": {
     "discoveryData": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRule": {
@@ -1443,12 +1671,14 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRulePrototype": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "flags": {
@@ -1456,7 +1686,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "graphs": {
@@ -1464,7 +1695,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts": {
@@ -1472,7 +1704,13 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
+     ]
+    },
+    "inheritedTags": {
+     "releases": [
+      "8.0"
      ]
     },
     "templateid": {},
@@ -1481,7 +1719,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "valuemap": {
@@ -1489,7 +1728,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -1498,7 +1738,8 @@
    "strip": {
     "discoveryData": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRule": {
@@ -1506,26 +1747,30 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRulePrototype": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "enabled_lifetime": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "enabled_lifetime_type": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "evaltype": {
@@ -1533,7 +1778,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "flags": {
@@ -1541,7 +1787,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "formula": {
@@ -1549,7 +1796,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "graphs": {
@@ -1557,7 +1805,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hostid": {
@@ -1565,7 +1814,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts": {
@@ -1573,7 +1823,13 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
+     ]
+    },
+    "inheritedTags": {
+     "releases": [
+      "8.0"
      ]
     },
     "inventory_link": {
@@ -1581,7 +1837,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "lifetime": {
@@ -1589,14 +1846,16 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "lifetime_type": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templateid": {},
@@ -1605,7 +1864,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "valuemap": {
@@ -1613,7 +1873,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -1647,7 +1908,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].active_available": {
@@ -1656,14 +1918,16 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].assigned_proxyid": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].auto_compress": {
@@ -1695,7 +1959,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].name": {},
@@ -1710,7 +1975,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].proxy_hostid": {
@@ -1724,12 +1990,14 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].readme": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].status": {},
@@ -1743,7 +2011,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].vendor_version": {
@@ -1751,12 +2020,14 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].wizard_ready": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -1798,7 +2069,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].active_available": {
@@ -1807,14 +2079,16 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].assigned_proxyid": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].auto_compress": {
@@ -1846,7 +2120,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].name": {},
@@ -1861,7 +2136,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].proxy_hostid": {
@@ -1875,12 +2151,14 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].readme": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].status": {},
@@ -1895,7 +2173,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].vendor_version": {
@@ -1903,12 +2182,14 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].wizard_ready": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -1917,7 +2198,8 @@
    "strip": {
     "links[].permission": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -1926,7 +2208,8 @@
    "strip": {
     "links[].permission": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -1937,7 +2220,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "users": {}
@@ -1949,7 +2233,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "content_type": {
@@ -1968,7 +2253,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -1979,7 +2265,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -1991,7 +2278,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "relative_path": {
@@ -1999,7 +2287,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -2010,7 +2299,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "auto_compress": {
@@ -2022,7 +2312,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts[].auto_compress": {
@@ -2213,28 +2504,32 @@
       "6.0",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "proxyGroup": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "state": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "version": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -2245,7 +2540,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "auto_compress": {
@@ -2257,7 +2553,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "custom_interfaces": {
@@ -2488,7 +2785,8 @@
       "6.0",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "maintenance_from": {
@@ -2520,7 +2818,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "proxy_hostid": {
@@ -2532,7 +2831,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templateid": {
@@ -2549,7 +2849,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -2560,14 +2861,16 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "state": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -2578,14 +2881,16 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "state": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -2633,7 +2938,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts": {}
@@ -2656,15 +2962,83 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts": {}
    }
   },
+  "service.create": {
+   "strip": {
+    "children[].algorithm": {},
+    "children[].created_at": {},
+    "children[].description": {},
+    "children[].name": {},
+    "children[].propagation_rule": {},
+    "children[].propagation_value": {},
+    "children[].readonly": {},
+    "children[].sortorder": {},
+    "children[].status": {},
+    "children[].weight": {},
+    "parents[].algorithm": {},
+    "parents[].created_at": {},
+    "parents[].description": {},
+    "parents[].name": {},
+    "parents[].propagation_rule": {},
+    "parents[].propagation_value": {},
+    "parents[].readonly": {},
+    "parents[].sortorder": {},
+    "parents[].status": {},
+    "parents[].weight": {},
+    "problem_events": {},
+    "readonly": {},
+    "status": {}
+   }
+  },
+  "service.update": {
+   "strip": {
+    "children[].algorithm": {},
+    "children[].created_at": {},
+    "children[].description": {},
+    "children[].name": {},
+    "children[].propagation_rule": {},
+    "children[].propagation_value": {},
+    "children[].readonly": {},
+    "children[].sortorder": {},
+    "children[].status": {},
+    "children[].uuid": {},
+    "children[].weight": {},
+    "created_at": {},
+    "parents[].algorithm": {},
+    "parents[].created_at": {},
+    "parents[].description": {},
+    "parents[].name": {},
+    "parents[].propagation_rule": {},
+    "parents[].propagation_value": {},
+    "parents[].readonly": {},
+    "parents[].sortorder": {},
+    "parents[].status": {},
+    "parents[].uuid": {},
+    "parents[].weight": {},
+    "problem_events": {},
+    "readonly": {},
+    "status": {},
+    "uuid": {
+     "releases": [
+      "6.2"
+     ]
+    }
+   }
+  },
   "settings.update": {
    "strip": {
-    "ha_failover_delay": {}
+    "ha_failover_delay": {},
+    "serverid": {
+     "releases": [
+      "8.0"
+     ]
+    }
    }
   },
   "template.create": {
@@ -2673,7 +3047,8 @@
     "discoveries": {},
     "discoveryRules": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "graphs": {},
@@ -2697,6 +3072,11 @@
     },
     "hosts": {},
     "httpTests": {},
+    "inheritedTags": {
+     "releases": [
+      "8.0"
+     ]
+    },
     "items": {},
     "macros[].automatic": {
      "releases": [
@@ -2722,7 +3102,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "triggers": {},
@@ -2743,7 +3124,8 @@
     "discoveries": {},
     "discoveryRules": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "flags": {},
@@ -2776,6 +3158,11 @@
     },
     "hosts": {},
     "httpTests": {},
+    "inheritedTags": {
+     "releases": [
+      "8.0"
+     ]
+    },
     "ipmi_authtype": {},
     "ipmi_password": {},
     "ipmi_privilege": {},
@@ -2811,7 +3198,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "parentTemplates": {},
@@ -2826,7 +3214,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "proxy_hostid": {
@@ -2840,7 +3229,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "status": {},
@@ -2850,7 +3240,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "tls_accept": {},
@@ -2876,7 +3267,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -2889,7 +3281,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "uuid": {
@@ -2940,13 +3333,15 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "dependencies[].value": {},
     "discoveryData": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRule": {},
@@ -2967,21 +3362,33 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts": {},
+    "inheritedTags": {
+     "releases": [
+      "8.0"
+     ]
+    },
     "items": {},
     "lastEvent": {},
     "lastchange": {},
     "state": {},
+    "tags[].automatic": {
+     "releases": [
+      "8.0"
+     ]
+    },
     "templategroups": {
      "releases": [
       "6.2",
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templateid": {},
@@ -3015,14 +3422,16 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "dependencies[].uuid": {},
     "dependencies[].value": {},
     "discoveryData": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRule": {},
@@ -3043,21 +3452,33 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts": {},
+    "inheritedTags": {
+     "releases": [
+      "8.0"
+     ]
+    },
     "items": {},
     "lastEvent": {},
     "lastchange": {},
     "state": {},
+    "tags[].automatic": {
+     "releases": [
+      "8.0"
+     ]
+    },
     "templategroups": {
      "releases": [
       "6.2",
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templateid": {},
@@ -3072,17 +3493,44 @@
     "dependencies[].correlation_tag": {},
     "dependencies[].description": {},
     "dependencies[].discover": {},
-    "dependencies[].error": {},
+    "dependencies[].error": {
+     "releases": [
+      "6.0",
+      "6.2",
+      "6.4",
+      "7.0",
+      "7.2",
+      "7.4"
+     ]
+    },
     "dependencies[].event_name": {},
     "dependencies[].expression": {},
     "dependencies[].flags": {},
-    "dependencies[].lastchange": {},
+    "dependencies[].lastchange": {
+     "releases": [
+      "6.0",
+      "6.2",
+      "6.4",
+      "7.0",
+      "7.2",
+      "7.4"
+     ]
+    },
     "dependencies[].manual_close": {},
     "dependencies[].opdata": {},
     "dependencies[].priority": {},
     "dependencies[].recovery_expression": {},
     "dependencies[].recovery_mode": {},
-    "dependencies[].state": {},
+    "dependencies[].state": {
+     "releases": [
+      "6.0",
+      "6.2",
+      "6.4",
+      "7.0",
+      "7.2",
+      "7.4"
+     ]
+    },
     "dependencies[].status": {},
     "dependencies[].templateid": {},
     "dependencies[].type": {},
@@ -3092,19 +3540,31 @@
       "6.4",
       "7.0",
       "7.2",
+      "7.4",
+      "8.0"
+     ]
+    },
+    "dependencies[].value": {
+     "releases": [
+      "6.0",
+      "6.2",
+      "6.4",
+      "7.0",
+      "7.2",
       "7.4"
      ]
     },
-    "dependencies[].value": {},
     "discoveryData": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRule": {},
     "discoveryRulePrototype": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "flags": {},
@@ -3123,10 +3583,16 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts": {},
+    "inheritedTags": {
+     "releases": [
+      "8.0"
+     ]
+    },
     "items": {},
     "templategroups": {
      "releases": [
@@ -3134,7 +3600,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templateid": {}
@@ -3147,17 +3614,44 @@
     "dependencies[].correlation_tag": {},
     "dependencies[].description": {},
     "dependencies[].discover": {},
-    "dependencies[].error": {},
+    "dependencies[].error": {
+     "releases": [
+      "6.0",
+      "6.2",
+      "6.4",
+      "7.0",
+      "7.2",
+      "7.4"
+     ]
+    },
     "dependencies[].event_name": {},
     "dependencies[].expression": {},
     "dependencies[].flags": {},
-    "dependencies[].lastchange": {},
+    "dependencies[].lastchange": {
+     "releases": [
+      "6.0",
+      "6.2",
+      "6.4",
+      "7.0",
+      "7.2",
+      "7.4"
+     ]
+    },
     "dependencies[].manual_close": {},
     "dependencies[].opdata": {},
     "dependencies[].priority": {},
     "dependencies[].recovery_expression": {},
     "dependencies[].recovery_mode": {},
-    "dependencies[].state": {},
+    "dependencies[].state": {
+     "releases": [
+      "6.0",
+      "6.2",
+      "6.4",
+      "7.0",
+      "7.2",
+      "7.4"
+     ]
+    },
     "dependencies[].status": {},
     "dependencies[].templateid": {},
     "dependencies[].type": {},
@@ -3167,23 +3661,44 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "dependencies[].uuid": {},
-    "dependencies[].value": {},
+    "dependencies[].value": {
+     "releases": [
+      "6.0",
+      "6.2",
+      "6.4",
+      "7.0",
+      "7.2",
+      "7.4"
+     ]
+    },
     "discoveryData": {
      "releases": [
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "discoveryRule": {},
     "discoveryRulePrototype": {
      "releases": [
+      "7.4",
+      "8.0"
+     ]
+    },
+    "error": {
+     "releases": [
+      "6.0",
+      "6.2",
+      "6.4",
+      "7.0",
+      "7.2",
       "7.4"
      ]
     },
-    "error": {},
     "flags": {},
     "functions": {},
     "groups": {
@@ -3200,15 +3715,20 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts": {},
-    "items": {},
-    "lastchange": {},
-    "state": {},
-    "templategroups": {
+    "inheritedTags": {
      "releases": [
+      "8.0"
+     ]
+    },
+    "items": {},
+    "lastchange": {
+     "releases": [
+      "6.0",
       "6.2",
       "6.4",
       "7.0",
@@ -3216,8 +3736,37 @@
       "7.4"
      ]
     },
+    "state": {
+     "releases": [
+      "6.0",
+      "6.2",
+      "6.4",
+      "7.0",
+      "7.2",
+      "7.4"
+     ]
+    },
+    "templategroups": {
+     "releases": [
+      "6.2",
+      "6.4",
+      "7.0",
+      "7.2",
+      "7.4",
+      "8.0"
+     ]
+    },
     "templateid": {},
-    "value": {}
+    "value": {
+     "releases": [
+      "6.0",
+      "6.2",
+      "6.4",
+      "7.0",
+      "7.2",
+      "7.4"
+     ]
+    }
    }
   },
   "user.create": {
@@ -3236,14 +3785,16 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "medias[].userdirectory_mediaid": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "medias[].userid": {
@@ -3258,7 +3809,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "role": {},
@@ -3267,14 +3819,16 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "userdirectoryid": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "usrgrps[].debug_mode": {},
@@ -3283,24 +3837,37 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "usrgrps[].mfaid": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "usrgrps[].name": {},
+    "usrgrps[].proxy_group_mode": {
+     "releases": [
+      "8.0"
+     ]
+    },
+    "usrgrps[].proxy_mode": {
+     "releases": [
+      "8.0"
+     ]
+    },
     "usrgrps[].userdirectoryid": {
      "releases": [
       "6.2",
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "usrgrps[].users_status": {}
@@ -3322,14 +3889,16 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "medias[].userdirectory_mediaid": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "medias[].userid": {
@@ -3344,7 +3913,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "role": {},
@@ -3353,14 +3923,16 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "userdirectoryid": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "usrgrps[].debug_mode": {},
@@ -3369,24 +3941,37 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "usrgrps[].mfaid": {
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "usrgrps[].name": {},
+    "usrgrps[].proxy_group_mode": {
+     "releases": [
+      "8.0"
+     ]
+    },
+    "usrgrps[].proxy_mode": {
+     "releases": [
+      "8.0"
+     ]
+    },
     "usrgrps[].userdirectoryid": {
      "releases": [
       "6.2",
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "usrgrps[].users_status": {}
@@ -3400,7 +3985,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -3413,7 +3999,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     }
    }
@@ -3443,6 +4030,11 @@
       "7.2"
      ]
     },
+    "users[].default_maintenance_period": {
+     "releases": [
+      "8.0"
+     ]
+    },
     "users[].gui_access": {
      "releases": [
       "6.0",
@@ -3458,7 +4050,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "users[].refresh": {},
@@ -3472,7 +4065,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "users[].url": {},
@@ -3481,7 +4075,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "users[].username": {},
@@ -3521,6 +4116,11 @@
       "7.2"
      ]
     },
+    "users[].default_maintenance_period": {
+     "releases": [
+      "8.0"
+     ]
+    },
     "users[].gui_access": {
      "releases": [
       "6.0",
@@ -3536,7 +4136,8 @@
      "releases": [
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "users[].refresh": {},
@@ -3550,7 +4151,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "users[].url": {},
@@ -3559,7 +4161,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "users[].username": {},
@@ -3590,7 +4193,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hosts": {},
@@ -3600,7 +4204,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templates": {}
@@ -3622,7 +4227,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "hostid": {},
@@ -3633,7 +4239,8 @@
       "6.4",
       "7.0",
       "7.2",
-      "7.4"
+      "7.4",
+      "8.0"
      ]
     },
     "templates": {}

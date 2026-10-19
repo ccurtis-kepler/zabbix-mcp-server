@@ -90,6 +90,44 @@ class _Ctx:
         return str(rows[0][key]) if rows else None
 
 
+def _cep_rules(c: _Ctx) -> None:
+    """8.0 complex event processing: one rule of every window type, with
+    every condition kind, a window with grouping and tags, and operations
+    of several types with their own filter."""
+    if not c.v("8.0"):
+        return
+    conditions = [
+        {"type": 3, "operator": 2, "event_name": "rt"},
+        {"type": 25, "operator": 0, "tag": "rt"},
+        {"type": 26, "operator": 2, "tag": "scope", "tag_value": "rt"},
+        {"type": 4, "operator": 5, "severity": 2},
+        {"type": 36, "operator": 2, "host_name": "rt"},
+        {"type": 37, "operator": 2, "host_group_name": "rt"},
+        {"type": 6, "operator": 4, "time_period": "1-5,09:00-18:00"},
+    ]
+    c.create("ceprule-plain", "ceprule.create", [{
+        "name": "rt-cep-plain", "sortorder": 100, "window_type": 0, "description": "rt", "stop": 0,
+        "filter": {"evaltype": 0, "conditions": conditions},
+        "operations": [
+            {"sortorder": 1, "type": 4, "execute_when": 0, "severity": 3},
+            {"sortorder": 2, "type": 11, "execute_when": 0, "tag": "rt-added", "tag_value": "1"},
+            {"sortorder": 3, "type": 16, "execute_when": 0, "tag": "rt", "new_tag": "rt2"},
+            {"sortorder": 4, "type": 7, "execute_when": 0, "suppress_duration": "1h",
+             "filter": {"evaltype": 0, "conditions": [{"type": 25, "operator": 0, "tag": "rt"}]}},
+        ]}], "ceprule.delete", "cep_ruleids")
+    c.create("ceprule-window", "ceprule.create", [{
+        "name": "rt-cep-window", "sortorder": 101, "window_type": 1, "status": 1,
+        "filter": {"evaltype": 3, "formula": "A and B",
+                   "conditions": [{"type": 3, "operator": 2, "event_name": "rt", "formulaid": "A"},
+                                  {"type": 4, "operator": 5, "severity": 1, "formulaid": "B"}]},
+        "window": {"duration": "30m", "capacity": 10, "group_by_host_group": 1, "group_by_host": 1,
+                   "group_by_tags": 1, "tags": ["rt"]},
+        "operations": [
+            {"sortorder": 1, "type": 2, "execute_when": 2},
+            {"sortorder": 2, "type": 11, "execute_when": 3, "tag": "rt-window", "tag_value": "closed"},
+        ]}], "ceprule.delete", "cep_ruleids")
+
+
 def _groups(c: _Ctx) -> None:
     c.ids["group"] = c.create("hostgroup", "hostgroup.create", {"name": "rt-group"},
                               "hostgroup.delete", "groupids")
@@ -597,10 +635,14 @@ def _connector_proxies(c: _Ctx) -> None:
                   "tls_accept": 1, "description": "rt", "custom_timeouts": 1, **timeouts}
         if pg:
             active.update({"proxy_groupid": pg, "local_address": "127.0.0.1", "local_port": "10051"})
+        passive = {"name": "rt-proxy-passive", "operating_mode": 1, "address": "127.0.0.1",
+                   "port": "10051", "tls_connect": 1, "description": "rt"}
+        if c.v("8.0"):
+            # 8.0 requires the telemetry query timeout on an active proxy
+            # (and refuses it on a passive one)
+            active["timeout_telemetry_query"] = "5s"
         c.create("proxy", "proxy.create", active, "proxy.delete", "proxyids")
-        c.create("proxy-passive", "proxy.create", {
-            "name": "rt-proxy-passive", "operating_mode": 1, "address": "127.0.0.1",
-            "port": "10051", "tls_connect": 1, "description": "rt"}, "proxy.delete", "proxyids")
+        c.create("proxy-passive", "proxy.create", passive, "proxy.delete", "proxyids")
     else:
         c.create("proxy", "proxy.create", {
             "host": "rt-proxy", "status": 5, "description": "rt", "tls_accept": 1,
@@ -657,7 +699,7 @@ def create_fixtures(call, version: str) -> list[tuple[str, list[str]]]:
     (children before parents), e.g. [("action.delete", ["12"]), ..., ("host.delete", ["10500"])]."""
     c = _Ctx(call, version)
     for step in (_groups, _images, _mediatype, _scripts, _users, _template, _host, _maintenance,
-                 _actions, _correlation, _drule, _services, _dashboards, _map, _token_report,
+                 _actions, _correlation, _drule, _services, _cep_rules, _dashboards, _map, _token_report,
                  _connector_proxies, _userdirectories):
         step(c)
     create_fixtures.last_summary = c.summary  # type: ignore[attr-defined]
@@ -684,6 +726,7 @@ _PURGE_ORDER = (
     ("report.get", "name", "report.delete", "reportid"),
     ("sla.get", "name", "sla.delete", "slaid"),
     ("service.get", "name", "service.delete", "serviceid"),
+    ("ceprule.get", "name", "ceprule.delete", "cep_ruleid"),
     ("dashboard.get", "name", "dashboard.delete", "dashboardid"),
     ("templatedashboard.get", "name", "templatedashboard.delete", "dashboardid"),
     ("map.get", "name", "map.delete", "sysmapid"),

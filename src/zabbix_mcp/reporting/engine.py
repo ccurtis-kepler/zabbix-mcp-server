@@ -22,8 +22,10 @@ from __future__ import annotations
 import base64
 import logging
 import math
-from datetime import datetime, timezone
+from datetime import datetime, timezone, tzinfo
 from pathlib import Path
+
+from zabbix_mcp.timezones import zone_name
 
 logger = logging.getLogger("zabbix_mcp.reporting")
 
@@ -95,6 +97,12 @@ def _compute_gauge_arc_path(percentage: float) -> str:
     return f"M 20 100 A 80 80 0 0 1 {end_x:.1f} {end_y:.1f}"
 
 
+def _generated_at(tz: tzinfo | None = None) -> str:
+    """The "generated at" stamp: now in *tz* (UTC by default) plus the zone's name."""
+    zone = tz if tz is not None else timezone.utc
+    return datetime.now(zone).strftime("%Y-%m-%d %H:%M ") + zone_name(zone)
+
+
 def _read_logo_as_base64(logo_path: str) -> str | None:
     """Safely read a logo file and return a base64 data URI.
 
@@ -162,28 +170,43 @@ class ReportEngine:
             autoescape=True,
         )
 
-    def render_pdf(self, template_name: str, context: dict) -> bytes:
-        """Render an HTML template to PDF bytes."""
-        template = self._env.get_template(template_name)
+    def build_context(self, context: dict) -> dict:
+        """Merge *context* over the common template values.
 
-        # Build common context values
+        ``context["tz"]`` (a ``tzinfo``, as resolved per call by
+        :func:`zabbix_mcp.timezones.resolve_zone`) selects the zone the
+        ``generated_at`` stamp is rendered in; it is popped from the
+        result because templates get the zone's name as ``timezone``
+        instead. Without it the stamp is in UTC, as before v1.41.
+        """
         logo_base64: str | None = None
         if self.logo_path:
             logo_base64 = _read_logo_as_base64(self.logo_path)
 
-        now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+        context = dict(context)
+        tz = context.pop("tz", None)
+        if not isinstance(tz, tzinfo):
+            tz = timezone.utc
 
         common: dict = {
             "logo_base64": logo_base64,
             "company": self.company_name,
             "subtitle": self.subtitle,
-            "generated_at": now,
+            "generated_at": _generated_at(tz),
+            "timezone": zone_name(tz),
             "page_label": "Page",
         }
         common.update(context)
+        return common
 
-        html_string = template.render(**common)
+    def render_html(self, template_name: str, context: dict) -> str:
+        """Render an HTML template to a string (the PDF's source)."""
+        template = self._env.get_template(template_name)
+        return template.render(**self.build_context(context))
 
+    def render_pdf(self, template_name: str, context: dict) -> bytes:
+        """Render an HTML template to PDF bytes."""
+        html_string = self.render_html(template_name, context)
         pdf_doc = weasyprint.HTML(string=html_string).write_pdf()
         return pdf_doc
 
@@ -266,7 +289,8 @@ class ReportEngine:
             ``fetch_*`` function in :mod:`zabbix_mcp.reporting.data_fetcher`.
         **options:
             Extra key/value pairs merged into the template context
-            (e.g. ``company_name``).
+            (e.g. ``company_name``). ``tz`` (a ``tzinfo``) selects the
+            zone of the ``generated_at`` stamp; see :meth:`build_context`.
         """
         template_file = self._templates.get(report_type)
         if template_file is None:

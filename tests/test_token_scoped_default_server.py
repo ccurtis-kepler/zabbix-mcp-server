@@ -52,8 +52,13 @@ class TestDefaultServerForCaller(unittest.TestCase):
         current_token_info.set(_token(["*"]))
         self.assertEqual(_default_server_for_caller(self._cm()), "prod")
 
-    def test_several_allowed_servers_stay_ambiguous(self):
+    def test_several_allowed_servers_default_to_the_first_of_them(self):
+        # the global default would only ever be refused for this token (#76)
         current_token_info.set(_token(["alice", "bob"]))
+        self.assertEqual(_default_server_for_caller(self._cm()), "alice")
+
+    def test_several_allowed_servers_keep_the_global_default_when_it_is_one_of_them(self):
+        current_token_info.set(_token(["bob", "prod"]))
         self.assertEqual(_default_server_for_caller(self._cm()), "prod")
 
     def test_unknown_server_name_falls_back(self):

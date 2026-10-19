@@ -255,7 +255,7 @@ _HISTORY_GET = MethodDef(
         "Always specify the 'history' parameter to select the correct data type "
         "(0=numeric float, 1=character/string, 2=log, 3=numeric unsigned, "
         "4=text, 5=binary on 7.0+, 6=JSON on 8.0+; Zabbix assumes 3 when omitted). "
-        "Use 'time_from' and 'time_till' (Unix timestamp or ISO 8601) to bound "
+        "Use 'time_from' and 'time_till' (Unix timestamp, ISO 8601 or a relative time such as now-1h) to bound "
         "the time range. Combine with 'itemids' or 'hostids' to target specific "
         "metrics. For long time ranges, consider using trend.get instead as it "
         "returns aggregated min/avg/max values and is more efficient."
@@ -279,11 +279,11 @@ _HISTORY_GET = MethodDef(
         ),
         ParamDef(
             "time_from", "timestamp",
-            "Return only data collected after this time (Unix timestamp or ISO 8601 date-time such as 2026-04-01T08:00:00Z; a value without a zone is read as UTC) (inclusive).",
+            "Return only data collected after this time (Unix timestamp, ISO 8601 date-time such as 2026-04-01T08:00:00Z, or a relative time such as now-1h, now/d or now-7d/d; a value without a zone is read in the zone resolved for the call) (inclusive).",
         ),
         ParamDef(
             "time_till", "timestamp",
-            "Return only data collected before this time (Unix timestamp or ISO 8601 date-time such as 2026-04-01T08:00:00Z; a value without a zone is read as UTC) (inclusive).",
+            "Return only data collected before this time (Unix timestamp, ISO 8601 date-time such as 2026-04-01T08:00:00Z, or a relative time such as now-1h, now/d or now-7d/d; a value without a zone is read in the zone resolved for the call) (inclusive).",
         ),
     ],
 )
@@ -314,7 +314,7 @@ _HISTORY_PUSH = MethodDef(
     description=(
         "Push historical data directly into Zabbix. This allows external systems "
         "to inject metric values. Each entry must include 'itemid', 'clock' "
-        "(Unix timestamp or ISO 8601 date-time), 'ns' (nanoseconds), and 'value'. The item must exist "
+        "(Unix timestamp, ISO 8601 date-time or a relative time such as now-1h), 'ns' (nanoseconds), and 'value'. The item must exist "
         "and be of type 'Zabbix trapper' or 'Dependent item'."
     ),
     read_only=False,
@@ -322,7 +322,7 @@ _HISTORY_PUSH = MethodDef(
         ParamDef(
             "items", "list",
             "Array of history objects to push. Each object must have: "
-            "'itemid' (str), 'clock' (Unix timestamp or ISO 8601 date-time), 'ns' (int, nanoseconds), "
+            "'itemid' (str), 'clock' (Unix timestamp, ISO 8601 date-time or a relative time such as now-1h), 'ns' (int, nanoseconds), "
             "'value' (str). Example: [{\"itemid\": \"12345\", \"clock\": 1609459200, "
             "\"ns\": 0, \"value\": \"42.5\"}]",
             required=True,
@@ -355,11 +355,11 @@ _TREND_GET = MethodDef(
         ),
         ParamDef(
             "time_from", "timestamp",
-            "Return only trend data after this time (Unix timestamp or ISO 8601 date-time such as 2026-04-01T08:00:00Z; a value without a zone is read as UTC) (inclusive).",
+            "Return only trend data after this time (Unix timestamp, ISO 8601 date-time such as 2026-04-01T08:00:00Z, or a relative time such as now-1h, now/d or now-7d/d; a value without a zone is read in the zone resolved for the call) (inclusive).",
         ),
         ParamDef(
             "time_till", "timestamp",
-            "Return only trend data before this time (Unix timestamp or ISO 8601 date-time such as 2026-04-01T08:00:00Z; a value without a zone is read as UTC) (inclusive).",
+            "Return only trend data before this time (Unix timestamp, ISO 8601 date-time such as 2026-04-01T08:00:00Z, or a relative time such as now-1h, now/d or now-7d/d; a value without a zone is read in the zone resolved for the call) (inclusive).",
         ),
     ],
 )
@@ -414,11 +414,11 @@ _EVENT_GET = MethodDef(
         ),
         ParamDef(
             "time_from", "timestamp",
-            "Return only events generated after this time (Unix timestamp or ISO 8601 date-time such as 2026-04-01T08:00:00Z; a value without a zone is read as UTC) (inclusive).",
+            "Return only events generated after this time (Unix timestamp, ISO 8601 date-time such as 2026-04-01T08:00:00Z, or a relative time such as now-1h, now/d or now-7d/d; a value without a zone is read in the zone resolved for the call) (inclusive).",
         ),
         ParamDef(
             "time_till", "timestamp",
-            "Return only events generated before this time (Unix timestamp or ISO 8601 date-time such as 2026-04-01T08:00:00Z; a value without a zone is read as UTC) (inclusive).",
+            "Return only events generated before this time (Unix timestamp, ISO 8601 date-time such as 2026-04-01T08:00:00Z, or a relative time such as now-1h, now/d or now-7d/d; a value without a zone is read in the zone resolved for the call) (inclusive).",
         ),
         ParamDef(
             "value", "int",
@@ -535,11 +535,11 @@ _PROBLEM_GET = MethodDef(
         ),
         ParamDef(
             "time_from", "timestamp",
-            "Return only problems created after this time (Unix timestamp or ISO 8601 date-time such as 2026-04-01T08:00:00Z; a value without a zone is read as UTC).",
+            "Return only problems created after this time (Unix timestamp, ISO 8601 date-time such as 2026-04-01T08:00:00Z, or a relative time such as now-1h, now/d or now-7d/d; a value without a zone is read in the zone resolved for the call).",
         ),
         ParamDef(
             "time_till", "timestamp",
-            "Return only problems created before this time (Unix timestamp or ISO 8601 date-time such as 2026-04-01T08:00:00Z; a value without a zone is read as UTC).",
+            "Return only problems created before this time (Unix timestamp, ISO 8601 date-time such as 2026-04-01T08:00:00Z, or a relative time such as now-1h, now/d or now-7d/d; a value without a zone is read in the zone resolved for the call).",
         ),
         ParamDef(
             "acknowledged", "bool",
@@ -778,13 +778,87 @@ _SLA_GETSLI = MethodDef(
         ),
         ParamDef(
             "period_from", "timestamp",
-            "Return SLI data starting from this time (Unix timestamp or ISO 8601 date-time such as 2026-04-01T08:00:00Z; a value without a zone is read as UTC).",
+            "Return SLI data starting from this time (Unix timestamp, ISO 8601 date-time such as 2026-04-01T08:00:00Z, or a relative time such as now-1h, now/d or now-7d/d; a value without a zone is read in the zone resolved for the call).",
         ),
         ParamDef(
             "period_to", "timestamp",
-            "Return SLI data up to this time (Unix timestamp or ISO 8601 date-time such as 2026-04-01T08:00:00Z; a value without a zone is read as UTC).",
+            "Return SLI data up to this time (Unix timestamp, ISO 8601 date-time such as 2026-04-01T08:00:00Z, or a relative time such as now-1h, now/d or now-7d/d; a value without a zone is read in the zone resolved for the call).",
         ),
     ],
+)
+
+# ---------------------------------------------------------------------------
+# Service (business services; rewritten in Zabbix 6.0)
+# ---------------------------------------------------------------------------
+
+_SERVICE_GET = MethodDef(
+    api_method="service.get",
+    tool_name="service_get",
+    description=(
+        "Retrieve business services: the service tree whose status is computed from "
+        "problems matched by problem tags and propagated along parent / child links "
+        "(algorithm, weight, propagation_rule), with SLAs attached via service tags. "
+        "Filter by serviceids, parentids (deep_parentids=true for the whole subtree), "
+        "childids, tags, problem_tags or slaids. Use selectParents, selectChildren, "
+        "selectTags, selectProblemTags, selectProblemEvents, selectStatusRules and "
+        "selectStatusTimeline in extra_params to include related data. Before Zabbix 6.0 "
+        "services were trigger-based (triggerid, goodsla, showsla) and the SLA lived here; "
+        "since 6.0 the SLA is sla_get / sla_getsli."
+    ),
+    read_only=True,
+    compact_fields=("serviceid", "name", "status", "algorithm", "sortorder"),
+    params=COMMON_GET_PARAMS + [
+        ParamDef("serviceids", "list[str]", "Return only services with the given IDs."),
+        ParamDef("parentids", "list[str]", "Return only children of the given services (direct, or the whole subtree with deep_parentids)."),
+        ParamDef("deep_parentids", "bool", "With parentids: return every descendant, not only direct children (6.0+)."),
+        ParamDef("childids", "list[str]", "Return only parents of the given services."),
+        ParamDef("slaids", "list[str]", "Return only services covered by the given SLAs (6.0+)."),
+        ParamDef("tags", "list", "Return only services with the given tags: [{'tag': ..., 'value': ..., 'operator': ...}] (6.0+)."),
+        ParamDef("problem_tags", "list", "Return only services whose problem tags match: [{'tag': ..., 'value': ..., 'operator': ...}] (6.0+)."),
+        ParamDef("without_problem_tags", "bool", "Return only services that have no problem tags (6.0+)."),
+        ParamDef("evaltype", "int", "How tag conditions combine: 0 = And/Or (default), 2 = Or (6.0+)."),
+    ],
+)
+
+_SERVICE_CREATE = MethodDef(
+    api_method="service.create",
+    tool_name="service_create",
+    description=(
+        "Create a business service. Required: 'name', 'algorithm' (status calculation: "
+        "0 = set status to OK, 1 = most critical of child services, 2 = most critical if all "
+        "children have problems), 'sortorder' (0-999). Optional: 'weight', 'propagation_rule' "
+        "and 'propagation_value', 'description', 'parents' / 'children' ([{'serviceid': X}]), "
+        "'tags' (service tags SLAs match on), 'problem_tags' (which problems affect this "
+        "service), 'status_rules'. Before 6.0 the required fields were name, algorithm, "
+        "showsla, goodsla and sortorder with an optional triggerid."
+    ),
+    read_only=False,
+    params=[
+        ParamDef(
+            "params", "dict",
+            "Service definition as a JSON dictionary. Required: name, algorithm, sortorder.",
+            required=True,
+        ),
+    ],
+)
+
+_SERVICE_UPDATE = MethodDef(
+    api_method="service.update",
+    tool_name="service_update",
+    description=(
+        "Update a business service. The 'serviceid' field is required; 'parents', 'children', "
+        "'tags', 'problem_tags' and 'status_rules' replace the whole list when given."
+    ),
+    read_only=False,
+    params=UPDATE_PARAMS,
+)
+
+_SERVICE_DELETE = MethodDef(
+    api_method="service.delete",
+    tool_name="service_delete",
+    description="Delete business services by their IDs. Child services are kept and detached.",
+    read_only=False,
+    params=DELETE_PARAMS,
 )
 
 # ---------------------------------------------------------------------------
@@ -834,4 +908,9 @@ MONITORING_METHODS: list[MethodDef] = [
     _SLA_UPDATE,
     _SLA_DELETE,
     _SLA_GETSLI,
+    # Service
+    _SERVICE_GET,
+    _SERVICE_CREATE,
+    _SERVICE_UPDATE,
+    _SERVICE_DELETE,
 ]

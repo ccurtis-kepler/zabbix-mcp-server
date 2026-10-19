@@ -112,6 +112,8 @@ auth_token = "{BEARER}"
 [zabbix.dev]
 url = "https://zabbix-e2e.example.invalid"
 api_token = "dummy"
+# the full catalog: on a read_only server the write tools are left out (#83)
+read_only = false
 """
         cls._cfg = tempfile.NamedTemporaryFile("w", suffix=".toml", delete=False)
         cls._cfg.write(cfg)

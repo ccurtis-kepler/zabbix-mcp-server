@@ -98,6 +98,14 @@ python3 scripts/roundtrip_fixtures.py https://zabbix.example.com Admin <password
 python3 scripts/build_write_contracts.py scripts/write_contracts_src/write_roundtrip_observed_*.json
 ```
 
+Measured so far on 6.0.48, 6.2.9, 6.4.21, 7.0.30, 7.2.15, 7.4.14 and 8.0.0rc2
+(`scripts/write_contracts_src/`); the business `service` and the 8.0
+`ceprule` (undocumented, fixtures of every condition and operation kind)
+are among the objects since v1.41. On 8.0 the SAML user directory fixture is skipped
+(the release requires `idp_certificate`), so that object is measured from
+the LDAP fixture only. Only `query`-type selects get `extend` in the
+probe's get; `service.get` `selectStatusTimeline` wants periods instead.
+
 The audit sends every object back *unchanged*, so nothing on the server
 is altered by the probes; the only writes are the `rt-` fixtures, which
 are deleted at the end. Run it against a test instance, never production:

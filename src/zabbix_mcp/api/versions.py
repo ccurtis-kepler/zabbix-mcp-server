@@ -27,7 +27,10 @@ tool for the right server up front.
 ``METHOD_SINCE`` lists the first release that has a method, for every
 method that is *not* in 5.0 (the oldest release this server supports);
 ``METHOD_REMOVED`` lists the first release *without* it and what the
-docs say to use instead. Both come from the per-release "API changes"
+docs say to use instead (the legacy objects of 5.0 and 5.2 - applications,
+screens, template screens, the old service dependencies - are listed too,
+so a raw call on a newer server gets the replacement, not "Method not
+found"). Both come from the per-release "API changes"
 pages and the object reference pages, checked release by release
 (5.0 ... 7.4, 8.0). A method missing from both tables exists on every
 supported release.
@@ -91,19 +94,22 @@ METHOD_SINCE: dict[str, str] = {
     "userdirectory.get": "6.2",
     "userdirectory.test": "6.2",
     "userdirectory.update": "6.2",
+    # Zabbix 6.0 (module.* is on the reference pages only since 6.4, but
+    # the API exists and answers on 6.0.48 and 6.2.9)
+    "module.create": "6.0",
+    "module.delete": "6.0",
+    "module.get": "6.0",
+    "module.update": "6.0",
     # Zabbix 6.4
     "connector.create": "6.4",
     "connector.delete": "6.4",
     "connector.get": "6.4",
     "connector.update": "6.4",
-    "module.create": "6.4",
-    "module.delete": "6.4",
-    "module.get": "6.4",
-    "module.update": "6.4",
     "script.getscriptsbyevents": "6.4",
     "user.provision": "6.4",
     # Zabbix 7.0
     "history.push": "7.0",
+    "hostdashboard.get": "7.0",   # undocumented; CHostDashboard.php exists from 7.0
     "mfa.create": "7.0",
     "mfa.delete": "7.0",
     "mfa.get": "7.0",
@@ -118,10 +124,58 @@ METHOD_SINCE: dict[str, str] = {
     "discoveryruleprototype.delete": "7.4",
     "discoveryruleprototype.get": "7.4",
     "discoveryruleprototype.update": "7.4",
+    # Zabbix 8.0
+    "apmlog.get": "8.0",
+    "ceprule.create": "8.0",      # undocumented in 8.0.0rc2; CCepRule.php
+    "ceprule.delete": "8.0",
+    "ceprule.get": "8.0",
+    "ceprule.resettimewindows": "8.0",
+    "ceprule.update": "8.0",
+    "apmmetric.get": "8.0",
+    "apmspan.get": "8.0",
+    "apmtrace.get": "8.0",
+    "device.get": "8.0",
+    "device.offboard": "8.0",
+    "serverinfo.get": "8.0",
 }
 
 # First release without the method -> (release, what to use instead).
 METHOD_REMOVED: dict[str, tuple[str, str]] = {
+    # Zabbix 5.2: template screens became template dashboards
+    "templatescreen.copy": ("5.2", "templatedashboard.create with the dashboard copied from templatedashboard.get"),
+    "templatescreen.create": ("5.2", "templatedashboard.create"),
+    "templatescreen.delete": ("5.2", "templatedashboard.delete"),
+    "templatescreen.get": ("5.2", "templatedashboard.get"),
+    "templatescreen.update": ("5.2", "templatedashboard.update"),
+    "templatescreenitem.get": ("5.2", "templatedashboard.get with selectPages"),
+    "settings.getglobal": ("5.4", "settings.get"),
+    # Zabbix 5.4: applications became item tags, screens became dashboards
+    "application.create": ("5.4", "item tags (item.update with tags)"),
+    "application.delete": ("5.4", "item tags (item.update with tags)"),
+    "application.get": ("5.4", "item.get with tags / selectTags"),
+    "application.massadd": ("5.4", "item tags (item.update with tags)"),
+    "application.update": ("5.4", "item tags (item.update with tags)"),
+    "screen.create": ("5.4", "dashboard.create"),
+    "screen.delete": ("5.4", "dashboard.delete"),
+    "screen.get": ("5.4", "dashboard.get"),
+    "screen.update": ("5.4", "dashboard.update"),
+    "screenitem.create": ("5.4", "dashboard.update with pages[].widgets"),
+    "screenitem.delete": ("5.4", "dashboard.update with pages[].widgets"),
+    "screenitem.get": ("5.4", "dashboard.get with selectPages"),
+    "screenitem.update": ("5.4", "dashboard.update with pages[].widgets"),
+    "screenitem.updatebyposition": ("5.4", "dashboard.update with pages[].widgets"),
+    # Zabbix 6.0: the service model was rewritten (SLA moved to sla.*)
+    "service.adddependencies": ("6.0", "service.update with parents / children"),
+    "service.addtimes": ("6.0", "sla.create / sla.update with schedule and excluded_downtimes"),
+    "service.deletedependencies": ("6.0", "service.update with parents / children"),
+    "service.deletetimes": ("6.0", "sla.update with schedule and excluded_downtimes"),
+    "service.getsla": ("6.0", "sla.getsli"),
+    # Zabbix 6.2
+    "trigger.adddependencies": ("6.2", "trigger.update with dependencies"),
+    "trigger.deletedependencies": ("6.2", "trigger.update with dependencies"),
+    # Zabbix 7.2
+    "discoveryrule.copy": ("7.2", "discoveryrule.create with the rule copied from discoveryrule.get"),
+    # Zabbix 8.0
     "host.massupdate": ("8.0", "host.update (per host)"),
     "hostgroup.massupdate": ("8.0", "hostgroup.update, hostgroup.massadd or hostgroup.massremove"),
     "hostinterface.replacehostinterfaces": ("8.0", "hostinterface.update, hostinterface.massadd or hostinterface.massremove"),

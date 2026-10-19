@@ -38,6 +38,7 @@ import asyncio
 import json
 import sys
 import unittest
+from datetime import datetime, timezone
 from unittest.mock import patch
 
 sys.path.insert(0, "src")
@@ -48,6 +49,7 @@ from zabbix_mcp.server import (  # noqa: E402
     _TIMESTAMP_FIELDS,
     _normalize_timestamps,
     _register_tools,
+    _try_parse_relative_time,
     _try_parse_timestamp,
 )
 
@@ -94,6 +96,66 @@ class TestParser(unittest.TestCase):
                       "April 1st 2026", "Z", "T08:00:00Z", "2026-13-01", "2026-04-31"):
             with self.subTest(value=value):
                 self.assertIsNone(_try_parse_timestamp(value))
+
+
+class TestRelativeTime(unittest.TestCase):
+    """Zabbix's own ``now-1h`` / ``now/d`` syntax, evaluated in the call's zone."""
+
+    def setUp(self):
+        from zoneinfo import ZoneInfo
+        self.tz = ZoneInfo("Europe/Prague")
+        self.now = datetime(2026, 10, 20, 0, 24, 17, tzinfo=self.tz)
+        patcher = patch("zabbix_mcp.server.datetime", wraps=datetime)
+        self.dt = patcher.start()
+        self.addCleanup(patcher.stop)
+        self.dt.now.side_effect = lambda tz=None: self.now.astimezone(tz) if tz else self.now.replace(tzinfo=None)
+
+    def _local(self, value, **kw):
+        ts = _try_parse_relative_time(value, self.tz, **kw)
+        return datetime.fromtimestamp(ts, self.tz).isoformat() if ts is not None else None
+
+    def test_now_and_offsets(self):
+        self.assertEqual(self._local("now"), "2026-10-20T00:24:17+02:00")
+        self.assertEqual(self._local("now-1h"), "2026-10-19T23:24:17+02:00")
+        self.assertEqual(self._local("now + 2d"), "2026-10-22T00:24:17+02:00")
+        self.assertEqual(self._local("now-30m"), "2026-10-19T23:54:17+02:00")
+        self.assertEqual(self._local("now-1w"), "2026-10-13T00:24:17+02:00")
+
+    def test_rounding_to_the_start(self):
+        self.assertEqual(self._local("now/d"), "2026-10-20T00:00:00+02:00")
+        self.assertEqual(self._local("now-1d/d"), "2026-10-19T00:00:00+02:00")
+        self.assertEqual(self._local("now/w"), "2026-10-19T00:00:00+02:00")   # Monday
+        self.assertEqual(self._local("now-1M/M"), "2026-09-01T00:00:00+02:00")
+        self.assertEqual(self._local("now/y"), "2026-01-01T00:00:00+01:00")
+        self.assertEqual(self._local("now/h"), "2026-10-20T00:00:00+02:00")
+
+    def test_range_end_rounds_to_the_last_second(self):
+        self.assertEqual(self._local("now/d", range_end=True), "2026-10-20T23:59:59+02:00")
+        # the week crosses the end of DST: still the last second of Sunday
+        self.assertEqual(self._local("now/w", range_end=True), "2026-10-25T23:59:59+01:00")
+        self.assertEqual(self._local("now-1M/M", range_end=True), "2026-09-30T23:59:59+02:00")
+        self.assertEqual(self._local("now-1h", range_end=True), "2026-10-19T23:24:17+02:00")
+
+    def test_month_arithmetic_clamps_the_day(self):
+        self.now = datetime(2026, 3, 31, 12, 0, tzinfo=self.tz)
+        self.assertEqual(self._local("now-1M"), "2026-02-28T12:00:00+01:00")
+        self.assertEqual(self._local("now+11M"), "2027-02-28T12:00:00+01:00")
+
+    def test_not_relative(self):
+        for value in ("", "nowhere", "now-1x", "now-", "yesterday", "-1h", "1d", "2026-04-01"):
+            with self.subTest(value=value):
+                self.assertIsNone(_try_parse_relative_time(value, self.tz))
+
+    def test_through_the_normalizer_from_and_till_differ(self):
+        params = _normalize_timestamps({"time_from": "now/d", "time_till": "now/d", "clock": "now-1h"}, self.tz)
+        self.assertEqual(datetime.fromtimestamp(params["time_from"], self.tz).isoformat(), "2026-10-20T00:00:00+02:00")
+        self.assertEqual(datetime.fromtimestamp(params["time_till"], self.tz).isoformat(), "2026-10-20T23:59:59+02:00")
+        self.assertEqual(datetime.fromtimestamp(params["clock"], self.tz).isoformat(), "2026-10-19T23:24:17+02:00")
+
+    def test_nested_and_utc_default(self):
+        params = _normalize_timestamps({"timeperiods": [{"start_date": "now/d"}]}, None)
+        self.assertEqual(datetime.fromtimestamp(params["timeperiods"][0]["start_date"], timezone.utc).isoformat(),
+                         "2026-10-19T00:00:00+00:00")
 
 
 class TestNormalizer(unittest.TestCase):

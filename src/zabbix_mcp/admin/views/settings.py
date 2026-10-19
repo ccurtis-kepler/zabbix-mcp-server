@@ -33,14 +33,16 @@ from zabbix_mcp.admin.config_writer import (
 logger = logging.getLogger("zabbix_mcp.admin")
 
 # Settings that require a server restart to take effect
-RESTART_REQUIRED = {"host", "port", "transport", "tls_cert_file", "tls_key_file", "log_file"}
+RESTART_REQUIRED = {"host", "port", "transport", "tls_cert_file", "tls_key_file", "log_file",
+                    "register_write_tools", "strip_write_params", "validate_get_params"}
 
 # List fields — split comma-separated into TOML arrays
 LIST_KEYS = {"cors_origins", "allowed_hosts", "allowed_origins", "allowed_import_dirs", "tools", "disabled_tools", "allowed_recipients"}
 
 # Boolean fields — checkbox present = True, absent = False
 BOOL_KEYS = {"compact_output", "enabled", "update_check_enabled", "use_starttls",
-             "use_ssl", "download_urls"}
+             "use_ssl", "download_urls", "register_write_tools", "strip_write_params",
+             "validate_get_params"}
 
 # Map UI section names to actual config.toml section + allowed keys
 SECTION_CONFIG = {
@@ -56,7 +58,7 @@ SECTION_CONFIG = {
     },
     "tools": {
         "toml_section": "server",
-        "allowed_keys": {"tools", "disabled_tools"},
+        "allowed_keys": {"tools", "disabled_tools", "register_write_tools", "strip_write_params", "validate_get_params"},
         "min_role": "admin",
     },
     "reporting": {
@@ -295,9 +297,11 @@ async def settings_view(request: Request) -> Response:
         except Exception as e:
             logger.error("Failed to read config: %s", e)
 
+    from zabbix_mcp.admin.views.tokens import _TOOL_DATA
     return admin_app.render("settings.html", request, {
         "active": "settings",
         "settings": settings,
+        "tool_data": _TOOL_DATA,
         "restart_required_fields": RESTART_REQUIRED,
         "has_legacy_token": has_legacy_token,
         "can_edit": session.role in ("admin", "operator"),

@@ -24,11 +24,13 @@ import hmac
 import inspect
 import json
 import logging
+import calendar
+import copy
 import re
 import secrets
 import threading
 import time
-from datetime import datetime, timezone, tzinfo
+from datetime import datetime, timezone, tzinfo, timedelta
 from pathlib import Path
 from typing import Annotated, Any, Optional
 
@@ -362,6 +364,76 @@ _TIMESTAMP_FORMATS: tuple[str, ...] = (
 
 _NUMERIC_TIMESTAMP_RE = re.compile(r"[0-9]+(\.[0-9]+)?")
 
+# Zabbix's own relative syntax (the frontend time selector): ``now``,
+# ``now-1h``, ``now+30m``, ``now/d`` (start of today), ``now-1d/d``
+# (start of yesterday), ``now/w`` (Monday 00:00), ``now/M``, ``now/y``.
+# Units: s m h d w M y. Evaluated in the zone resolved for the call.
+_RELATIVE_TIME_RE = re.compile(r"^now(?:\s*([+-])\s*(\d+)\s*([smhdwMy]))?(?:\s*/\s*([smhdwMy]))?$")
+
+# Fields that name the end of a range: ``now/d`` there means the end of
+# the day (23:59:59), as in the frontend's "To" field, not its start.
+_RANGE_END_FIELDS: frozenset[str] = frozenset({
+    "time_till", "period_to", "active_till", "lastChangeTill",
+})
+
+
+def _shift_datetime(dt: datetime, amount: int, unit: str) -> datetime:
+    if unit == "M":
+        total = dt.year * 12 + (dt.month - 1) + amount
+        year, month = divmod(total, 12)
+        month += 1
+        day = min(dt.day, calendar.monthrange(year, month)[1])
+        return dt.replace(year=year, month=month, day=day)
+    if unit == "y":
+        year = dt.year + amount
+        day = min(dt.day, calendar.monthrange(year, dt.month)[1])
+        return dt.replace(year=year, day=day)
+    seconds = {"s": 1, "m": 60, "h": 3600, "d": 86400, "w": 604800}[unit]
+    return dt + timedelta(seconds=amount * seconds)
+
+
+def _floor_datetime(dt: datetime, unit: str) -> datetime:
+    dt = dt.replace(microsecond=0)
+    if unit == "s":
+        return dt
+    dt = dt.replace(second=0)
+    if unit == "m":
+        return dt
+    dt = dt.replace(minute=0)
+    if unit == "h":
+        return dt
+    dt = dt.replace(hour=0)
+    if unit == "d":
+        return dt
+    if unit == "w":
+        return dt - timedelta(days=dt.weekday())
+    dt = dt.replace(day=1)
+    if unit == "M":
+        return dt
+    return dt.replace(month=1)
+
+
+def _try_parse_relative_time(value: str, tz: tzinfo | None = None, *, range_end: bool = False) -> int | None:
+    """``now-1h`` -> a Unix timestamp, or ``None`` when *value* is not relative.
+
+    ``/unit`` rounds down to the start of the unit; on a range-end field
+    it rounds to the last second of the unit instead, so ``time_from:
+    now/d, time_till: now/d`` is the whole of today.
+    """
+    match = _RELATIVE_TIME_RE.match(value.strip())
+    if not match:
+        return None
+    sign, amount, unit, rounding = match.groups()
+    dt = datetime.now(tz or timezone.utc)
+    if sign:
+        dt = _shift_datetime(dt, int(amount) * (1 if sign == "+" else -1), unit)
+    if rounding:
+        dt = _floor_datetime(dt, rounding)
+        if range_end:
+            dt = _shift_datetime(dt, 1, rounding) - timedelta(seconds=1)
+    return int(dt.timestamp())
+
+
 
 def _try_parse_timestamp(value: str, tz: tzinfo | None = None) -> int | None:
     """Parse an ISO 8601 date-time string into a Unix timestamp.
@@ -397,8 +469,12 @@ def _try_parse_timestamp(value: str, tz: tzinfo | None = None) -> int | None:
     return int(dt.timestamp())
 
 
-def _normalize_timestamp_value(raw: Any, tz: tzinfo | None = None) -> Any:
-    """Return *raw* as a Unix timestamp int when it can be read as one."""
+def _normalize_timestamp_value(raw: Any, tz: tzinfo | None = None, key: str | None = None) -> Any:
+    """Return *raw* as a Unix timestamp int when it can be read as one.
+
+    *key* is the field name: it decides whether ``now/d`` means the
+    start or the end of the day (``_RANGE_END_FIELDS``).
+    """
     if isinstance(raw, bool):
         return raw
     if isinstance(raw, int):
@@ -411,7 +487,9 @@ def _normalize_timestamp_value(raw: Any, tz: tzinfo | None = None) -> Any:
             return raw  # already a Unix timestamp; Zabbix takes numeric strings
         if _NUMERIC_TIMESTAMP_RE.fullmatch(text):
             return int(float(text))  # "1775030400.0" - a float that was stringified
-        ts = _try_parse_timestamp(text, tz)
+        ts = _try_parse_relative_time(text, tz, range_end=key in _RANGE_END_FIELDS)
+        if ts is None:
+            ts = _try_parse_timestamp(text, tz)
         return raw if ts is None else ts
     return raw
 
@@ -436,10 +514,10 @@ def _normalize_timestamps(params: Any, tz: tzinfo | None = None) -> Any:
                 result.pop(key, None)
                 continue
             if key in _TIMESTAMP_FIELDS and not isinstance(value, (dict, list)):
-                new_value = _normalize_timestamp_value(value, tz)
+                new_value = _normalize_timestamp_value(value, tz, key)
             elif key in _TIMESTAMP_FIELDS and isinstance(value, list):
                 converted = [
-                    _normalize_timestamp_value(v, tz) if not isinstance(v, (dict, list)) else _normalize_timestamps(v, tz)
+                    _normalize_timestamp_value(v, tz, key) if not isinstance(v, (dict, list)) else _normalize_timestamps(v, tz)
                     for v in value
                 ]
                 new_value = value if all(a is b for a, b in zip(converted, value)) else converted
@@ -735,6 +813,17 @@ def _sanitize_create_params(params: dict[str, Any], api_method: str) -> None:
     if api_method in ("hostprototype.create", "hostprototype.update"):
         if str(params.get("custom_interfaces", "")) == "0" and params.get("interfaces") == []:
             del params["interfaces"]
+
+    # CEP rule (8.0): the rule filter and every operation filter carry the
+    # same eval_formula / formulaid pair as an LLD filter, with the same
+    # rule (formulaid only with a custom expression, evaltype 3).
+    if api_method in ("ceprule.create", "ceprule.update"):
+        _strip_lld_filter(params.get("filter"))
+        operations = params.get("operations")
+        if isinstance(operations, list):
+            for operation in operations:
+                if isinstance(operation, dict):
+                    _strip_lld_filter(operation.get("filter"))
 
     # script: a get returns every field, the script's type and scope decide
     # which ones the write accepts (6.x refuses "timeout" on a custom script,
@@ -1083,6 +1172,72 @@ def _servers_for_caller(client_manager) -> list[str]:
         if allowed and "*" not in allowed:
             names = [n for n in names if n in allowed]
     return names
+
+
+def _server_param_description(reachable: list[str], default: str | None) -> str:
+    return (f"Target Zabbix server. Available: {', '.join(reachable)}. "
+            f"Defaults to '{default or reachable[0]}' if omitted.")
+
+
+def _scope_server_param(tools: list, client_manager) -> list:
+    """Make the ``server`` parameter of every tool name only the servers the
+    caller may use (discussion #76).
+
+    The schema is built once at registration with every configured name;
+    in an MSP setup the name is the customer, so a token restricted with
+    ``allowed_servers`` must not see the others. Tool objects and their
+    schemas are copied, never mutated: the originals are shared.
+    """
+    reachable = _servers_for_caller(client_manager)
+    if not reachable or reachable == list(client_manager.server_names):
+        return tools
+    desc = _server_param_description(reachable, _default_server_for_caller(client_manager))
+    out = []
+    for tool in tools:
+        schema = getattr(tool, "input_schema", None) or getattr(tool, "inputSchema", None)
+        props = schema.get("properties") if isinstance(schema, dict) else None
+        if not props or "server" not in props:
+            out.append(tool)
+            continue
+        new_schema = copy.deepcopy(schema)
+        new_schema["properties"]["server"]["description"] = desc
+        field = "input_schema" if hasattr(tool, "input_schema") else "inputSchema"
+        out.append(tool.model_copy(update={field: new_schema}))
+    return out
+
+
+def _resolve_server_for_caller(client_manager, name: str | None) -> str:
+    """``client_manager.resolve_server`` whose "unknown server" message lists
+    only the servers the caller may use, not every configured one (#76).
+    ``check_token_authorization`` still decides afterwards."""
+    if name:
+        reachable = _servers_for_caller(client_manager)
+        if name not in reachable:
+            raise ToolError(f"Unknown Zabbix server '{name}'. Available: {', '.join(reachable)}")
+    return client_manager.resolve_server(name)
+
+
+def _filter_tools_by_server_mode(tools: list, client_manager) -> list:
+    """Leave the write tools out of ``tools/list`` when every server the
+    caller can reach is ``read_only`` (#83).
+
+    A read-only token already hides them (``_filter_tools_by_token``); this
+    covers the callers that have no such token - stdio, the legacy
+    ``auth_token``, a read-write token - against a server that refuses
+    every write anyway. Nothing is hidden while one reachable server
+    takes writes; the call-time ``check_write`` stays the source of truth.
+    """
+    reachable = _servers_for_caller(client_manager)
+    if not reachable:
+        return tools
+    _ensure_write_tools_set()
+    for name in reachable:
+        try:
+            if not client_manager.get_server_config(name).read_only:
+                return tools
+        except Exception:
+            return tools
+    return [t for t in tools if t.name not in _WRITE_TOOLS]
 
 
 def _annotate_tools_by_version(tools: list, client_manager) -> list:
@@ -1657,17 +1812,21 @@ def _default_server_for_caller(client_manager) -> str | None:
     ordinary question. That is what made the per-user deployment of
     #74 work only for whoever happened to be listed first.
 
-    Only an unambiguous scope is honoured: a wildcard, several servers,
-    or a name that is not configured all fall back to the global
-    default, and check_token_authorization still has the last word
-    after this - so a caller can only ever land on a server it would
-    have been allowed to name explicitly.
+    A token scoped to several servers that do not include the global
+    default lands on the first of them (in the order of its
+    ``allowed_servers``), since the global default would only ever be
+    refused for it (#76). A wildcard, or a scope naming no configured
+    server, falls back to the global default; check_token_authorization
+    still has the last word after this - so a caller can only ever land
+    on a server it would have been allowed to name explicitly.
     """
     from zabbix_mcp.token_store import current_token_info
     token = current_token_info.get()
     if token is not None:
-        allowed = list(getattr(token, "allowed_servers", None) or [])
-        if len(allowed) == 1 and allowed[0] != "*" and allowed[0] in client_manager.server_names:
+        allowed = [a for a in (getattr(token, "allowed_servers", None) or []) if a in client_manager.server_names]
+        if allowed and "*" not in (getattr(token, "allowed_servers", None) or []):
+            if client_manager.default_server in allowed:
+                return client_manager.default_server
             return allowed[0]
     return client_manager.default_server
 
@@ -1999,7 +2158,7 @@ def _make_tool_handler(
             raise ToolError("No Zabbix server configured.")
 
         try:
-            server_name = client_manager.resolve_server(server_name)
+            server_name = _resolve_server_for_caller(client_manager, server_name)
 
             # Check token authorization (servers, scopes, read_only)
             from zabbix_mcp.token_store import check_token_authorization
@@ -2051,7 +2210,12 @@ def _make_tool_handler(
                 _sanitize_action_payload,
                 params, method_def.api_method, client_manager, server_name,
             )
-            if auth_sessionid:
+            if method_def.api_method == "apiinfo.version":
+                # The one method Zabbix refuses WITH credentials ("must be
+                # called without authorization" since 5.4); the client already
+                # holds the answer from its own version probe.
+                result = await asyncio.to_thread(client_manager.get_version, server_name)
+            elif auth_sessionid:
                 result = await asyncio.to_thread(
                     client_manager.call_with_session,
                     server_name, method_def.api_method, params, auth_sessionid,
@@ -2259,7 +2423,7 @@ def _register_tools(
         if not server_name:
             raise ToolError("No Zabbix server configured.")
         try:
-            server_name = client_manager.resolve_server(server_name)
+            server_name = _resolve_server_for_caller(client_manager, server_name)
 
             # Enforce read_only: check known definitions first, then fall back
             # to suffix whitelist for unknown methods.
@@ -2368,7 +2532,7 @@ def _register_tools(
         _raw_err = _check_raw_json_allowed(bool(raw_json))
         if _raw_err:
             raise ToolError(_raw_err)
-        srv = client_manager.resolve_server(server or _default_server_for_caller(client_manager))
+        srv = _resolve_server_for_caller(client_manager, server or _default_server_for_caller(client_manager))
         _auth_err = check_token_authorization(srv, tool_prefix="graph")
         if _auth_err:
             raise ToolError(_auth_err)
@@ -2400,7 +2564,7 @@ def _register_tools(
         _raw_err = _check_raw_json_allowed(bool(raw_json))
         if _raw_err:
             raise ToolError(_raw_err)
-        srv = client_manager.resolve_server(server or _default_server_for_caller(client_manager))
+        srv = _resolve_server_for_caller(client_manager, server or _default_server_for_caller(client_manager))
         _auth_err = check_token_authorization(srv, tool_prefix="host")
         if _auth_err:
             raise ToolError(_auth_err)
@@ -2432,7 +2596,7 @@ def _register_tools(
         _raw_err = _check_raw_json_allowed(bool(raw_json))
         if _raw_err:
             raise ToolError(_raw_err)
-        srv = client_manager.resolve_server(server or _default_server_for_caller(client_manager))
+        srv = _resolve_server_for_caller(client_manager, server or _default_server_for_caller(client_manager))
         _auth_err = check_token_authorization(srv, tool_prefix="host")
         if _auth_err:
             raise ToolError(_auth_err)
@@ -2504,7 +2668,7 @@ def _register_tools(
         _raw_err = _check_raw_json_allowed(bool(raw_json))
         if _raw_err:
             raise ToolError(_raw_err)
-        srv = client_manager.resolve_server(server or _default_server_for_caller(client_manager))
+        srv = _resolve_server_for_caller(client_manager, server or _default_server_for_caller(client_manager))
         _auth_err = check_token_authorization(srv, tool_prefix="item")
         if _auth_err:
             raise ToolError(_auth_err)
@@ -2576,7 +2740,7 @@ def _register_tools(
         _raw_err = _check_raw_json_allowed(bool(raw_json))
         if _raw_err:
             raise ToolError(_raw_err)
-        srv = client_manager.resolve_server(server or _default_server_for_caller(client_manager))
+        srv = _resolve_server_for_caller(client_manager, server or _default_server_for_caller(client_manager))
         _auth_err = check_token_authorization(srv, tool_prefix="problem")
         if _auth_err:
             raise ToolError(_auth_err)
@@ -2609,7 +2773,7 @@ def _register_tools(
         _raw_err = _check_raw_json_allowed(bool(raw_json))
         if _raw_err:
             raise ToolError(_raw_err)
-        srv = client_manager.resolve_server(server or _default_server_for_caller(client_manager))
+        srv = _resolve_server_for_caller(client_manager, server or _default_server_for_caller(client_manager))
         # Composite read - require scope for every Zabbix endpoint we
         # internally call so a narrow-scoped token can't read problems
         # / items here that it could not pull via problem_get / item_get.
@@ -2642,7 +2806,7 @@ def _register_tools(
         _raw_err = _check_raw_json_allowed(bool(raw_json))
         if _raw_err:
             raise ToolError(_raw_err)
-        srv = client_manager.resolve_server(server or _default_server_for_caller(client_manager))
+        srv = _resolve_server_for_caller(client_manager, server or _default_server_for_caller(client_manager))
         # Composite read - covers hostgroup + member host + active problems.
         _auth_err = check_token_authorization(srv, tool_prefixes=[
             "hostgroup", "host", "problem", "trigger",
@@ -2671,7 +2835,7 @@ def _register_tools(
         _raw_err = _check_raw_json_allowed(bool(raw_json))
         if _raw_err:
             raise ToolError(_raw_err)
-        srv = client_manager.resolve_server(server or _default_server_for_caller(client_manager))
+        srv = _resolve_server_for_caller(client_manager, server or _default_server_for_caller(client_manager))
         # Composite read - aggregates host / item / trigger / template /
         # problem counts plus per-group breakdown. Requires scope for
         # every endpoint we sum over.
@@ -2705,7 +2869,7 @@ def _register_tools(
         _raw_err = _check_raw_json_allowed(bool(raw_json))
         if _raw_err:
             raise ToolError(_raw_err)
-        srv = client_manager.resolve_server(server or _default_server_for_caller(client_manager))
+        srv = _resolve_server_for_caller(client_manager, server or _default_server_for_caller(client_manager))
         # Composite read - item metadata + history + parent host name.
         _auth_err = check_token_authorization(srv, tool_prefixes=[
             "item", "history", "host",
@@ -2800,7 +2964,7 @@ def _register_tools(
             ) -> str | CallToolResult:
                 """Synchronous PDF generation - shared between sync and task-augmented paths."""
                 from zabbix_mcp.reporting import data_fetcher
-                srv = client_manager.resolve_server(server or _default_server_for_caller(client_manager))
+                srv = _resolve_server_for_caller(client_manager, server or _default_server_for_caller(client_manager))
                 _auth_err = check_token_authorization(srv, tool_prefix="host")
                 if _auth_err:
                     raise ToolError(_auth_err)
@@ -2819,13 +2983,19 @@ def _register_tools(
                     _period_to = int(time.time())
                     _period_from = _period_to - _delta
 
+                    # The period boundaries stay epoch-based; the zone only
+                    # decides how the PDF prints them (header, day grouping
+                    # of the backup matrix, "generated at" stamp).
+                    tz = await asyncio.to_thread(resolve_zone, client_manager, srv)
+
                     fetcher = getattr(data_fetcher, f"fetch_{report_type}_data")
                     context = await asyncio.to_thread(
                         fetcher, client_manager, srv,
                         {"hostgroupid": hostgroupid, "period": period, "period_from": _period_from, "period_to": _period_to, "company": company or report_engine.company_name},
+                        tz=tz,
                     )
                     pdf_bytes = await asyncio.to_thread(
-                        report_engine.generate_report, report_type, context,
+                        report_engine.generate_report, report_type, context, tz=tz,
                     )
                     # Out-of-band delivery (issue #68): a full PDF inline
                     # can exceed the client's context window or a proxy
@@ -3044,7 +3214,7 @@ def _register_tools(
         """Prepare a write action for review before execution. Returns a preview
         of what will happen and a confirmation token. Use action_confirm with the
         token to actually execute it. Tokens expire after 5 minutes."""
-        srv = client_manager.resolve_server(server or _default_server_for_caller(client_manager))
+        srv = _resolve_server_for_caller(client_manager, server or _default_server_for_caller(client_manager))
 
         # Token authorization: server + write permission
         _prefix = action.split(".")[0].lower() if "." in action else ""
@@ -3736,9 +3906,10 @@ def run_server(
         for tool in result.tools:
             if tool.name in _TASK_AUGMENTED_TOOLS:
                 tool.execution = ToolExecution(taskSupport="optional")
-        result.tools = _annotate_tools_by_version(
-            _filter_tools_by_token(result.tools), client_manager,
-        )
+        result.tools = _scope_server_param(_annotate_tools_by_version(
+            _filter_tools_by_server_mode(_filter_tools_by_token(result.tools), client_manager),
+            client_manager,
+        ), client_manager)
         # 2026-07-28 CacheableResult freshness hint. The catalog only
         # changes on restart, so a few minutes of client-side caching
         # saves re-sending the whole schema set every session. Scope is

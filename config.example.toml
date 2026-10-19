@@ -292,13 +292,13 @@ compact_output = true
 # and is refused. Set this to false to leave them out of the catalog
 # entirely. It skips every write API tool plus action_prepare,
 # action_confirm and zabbix_raw_api_call, the same set a read-only token
-# never sees, and cuts a full catalog by about two thirds (236 tools to
+# never sees, and cuts a full catalog by about two thirds (255 tools to
 # 75 today), under client limits such as OpenAI's 128. Call-time checks
 # are unchanged. Default: true.
 # register_write_tools = false
 
 # Filter which tool groups are exposed via MCP.
-# When not set or commented out, all ~225 tools are registered (default).
+# When not set or commented out, all ~255 tools are registered (default).
 # This is useful when your LLM has a tool limit (e.g. OpenAI max 128 tools).
 #
 # Use category names to include entire groups at once, individual tool prefixes,

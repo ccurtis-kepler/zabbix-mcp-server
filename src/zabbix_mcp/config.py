@@ -319,7 +319,8 @@ TOOL_GROUPS: dict[str, list[str]] = {
         "problem", "problem_active_get", "event", "history", "trend",
         "graph", "graphitem", "graphprototype",
         "discoveryrule", "discoveryruleprototype",
-        "dcheck", "dhost", "drule", "dservice", "httptest", "sla",
+        "dcheck", "dhost", "drule", "dservice", "httptest", "sla", "service",
+        "apmtrace", "apmspan", "apmlog", "apmmetric", "hostdashboard",
         # Pre-correlated views (one-shot replacements for raw chains)
         "host_status_get", "hostgroup_overview_get",
         "infrastructure_summary_get", "item_history_summary_get",
@@ -329,7 +330,7 @@ TOOL_GROUPS: dict[str, list[str]] = {
         "valuemap", "dashboard",
     ],
     "alerts": [
-        "action", "alert", "mediatype", "script",
+        "action", "alert", "mediatype", "script", "ceprule",
     ],
     "users": [
         "user", "usergroup", "userdirectory", "usermacro",
@@ -340,7 +341,7 @@ TOOL_GROUPS: dict[str, list[str]] = {
         "configuration", "connector", "correlation", "hanode",
         "iconmap", "image", "maintenance", "map", "module",
         "proxy", "proxygroup", "regexp", "report", "task",
-        "auditlog",
+        "auditlog", "apiinfo", "serverinfo", "device",
     ],
     "extensions": [
         "graph_render", "anomaly_detect", "capacity_forecast",

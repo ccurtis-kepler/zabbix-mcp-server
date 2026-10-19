@@ -158,6 +158,541 @@
     "sortfield possible values identical 5.0-8.0: alertid, clock, eventid, mediatypeid, sendto, status. Parameter set unchanged 5.0-8.0 (only type naming string/array -> ID/array on 7.0)."
    ]
   },
+  "apmlog.get": {
+   "object": "apmlog",
+   "sortfield": [
+    "timestamp",
+    "traceid",
+    "spanid",
+    "trace_flags",
+    "severity_text",
+    "severity_number",
+    "service_name",
+    "resource_schema_url",
+    "scope_schema_url",
+    "scope_name",
+    "scope_version",
+    "event_name"
+   ],
+   "sortfield_versions": {
+    "event_name": {
+     "type": "",
+     "since": "8.0"
+    },
+    "resource_schema_url": {
+     "type": "",
+     "since": "8.0"
+    },
+    "scope_name": {
+     "type": "",
+     "since": "8.0"
+    },
+    "scope_schema_url": {
+     "type": "",
+     "since": "8.0"
+    },
+    "scope_version": {
+     "type": "",
+     "since": "8.0"
+    },
+    "service_name": {
+     "type": "",
+     "since": "8.0"
+    },
+    "severity_number": {
+     "type": "",
+     "since": "8.0"
+    },
+    "severity_text": {
+     "type": "",
+     "since": "8.0"
+    },
+    "spanid": {
+     "type": "",
+     "since": "8.0"
+    },
+    "timestamp": {
+     "type": "",
+     "since": "8.0"
+    },
+    "trace_flags": {
+     "type": "",
+     "since": "8.0"
+    },
+    "traceid": {
+     "type": "",
+     "since": "8.0"
+    }
+   },
+   "common": [
+    "countOutput",
+    "excludeSearch",
+    "filter",
+    "limit",
+    "output",
+    "search",
+    "searchByAny",
+    "searchWildcardsEnabled",
+    "sortfield",
+    "sortorder",
+    "startSearch"
+   ],
+   "params": {
+    "log_attributes": {
+     "type": "object/array",
+     "since": "8.0"
+    },
+    "log_attributes_evaltype": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "offset": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "resource_attributes": {
+     "type": "object/array",
+     "since": "8.0"
+    },
+    "resource_attributes_evaltype": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "scope_attributes": {
+     "type": "object/array",
+     "since": "8.0"
+    },
+    "scope_attributes_evaltype": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "spanids": {
+     "type": "string/array",
+     "since": "8.0"
+    },
+    "time_from": {
+     "type": "timestamp",
+     "since": "8.0"
+    },
+    "time_till": {
+     "type": "timestamp",
+     "since": "8.0"
+    },
+    "traceids": {
+     "type": "string/array",
+     "since": "8.0"
+    },
+    "with_flags_off": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "with_flags_on": {
+     "type": "integer",
+     "since": "8.0"
+    }
+   },
+   "selects": {},
+   "filter_props": null,
+   "search_props": null,
+   "notes": [
+    "New in 8.0."
+   ]
+  },
+  "apmmetric.get": {
+   "object": "apmmetric",
+   "sortfield": [
+    "type",
+    "resource_schema_url",
+    "scope_schema_url",
+    "scope_name",
+    "scope_version",
+    "service_name",
+    "metric_name",
+    "metric_unit",
+    "start_time_unix",
+    "time_unix"
+   ],
+   "sortfield_versions": {
+    "metric_name": {
+     "type": "",
+     "since": "8.0"
+    },
+    "metric_unit": {
+     "type": "",
+     "since": "8.0"
+    },
+    "resource_schema_url": {
+     "type": "",
+     "since": "8.0"
+    },
+    "scope_name": {
+     "type": "",
+     "since": "8.0"
+    },
+    "scope_schema_url": {
+     "type": "",
+     "since": "8.0"
+    },
+    "scope_version": {
+     "type": "",
+     "since": "8.0"
+    },
+    "service_name": {
+     "type": "",
+     "since": "8.0"
+    },
+    "start_time_unix": {
+     "type": "",
+     "since": "8.0"
+    },
+    "time_unix": {
+     "type": "",
+     "since": "8.0"
+    },
+    "type": {
+     "type": "",
+     "since": "8.0"
+    }
+   },
+   "common": [
+    "countOutput",
+    "excludeSearch",
+    "filter",
+    "limit",
+    "output",
+    "search",
+    "searchByAny",
+    "searchWildcardsEnabled",
+    "sortfield",
+    "sortorder",
+    "startSearch"
+   ],
+   "params": {
+    "attributes": {
+     "type": "object/array",
+     "since": "8.0"
+    },
+    "attributes_evaltype": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "offset": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "resource_attributes": {
+     "type": "object/array",
+     "since": "8.0"
+    },
+    "resource_attributes_evaltype": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "scope_attributes": {
+     "type": "object/array",
+     "since": "8.0"
+    },
+    "scope_attributes_evaltype": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "time_from": {
+     "type": "timestamp",
+     "since": "8.0"
+    },
+    "time_till": {
+     "type": "timestamp",
+     "since": "8.0"
+    },
+    "types": {
+     "type": "integer/array",
+     "since": "8.0"
+    },
+    "with_flags_off": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "with_flags_on": {
+     "type": "integer",
+     "since": "8.0"
+    }
+   },
+   "selects": {},
+   "filter_props": null,
+   "search_props": null,
+   "notes": [
+    "New in 8.0."
+   ]
+  },
+  "apmspan.get": {
+   "object": "apmspan",
+   "sortfield": [
+    "timestamp",
+    "traceid",
+    "spanid",
+    "parent_spanid",
+    "trace_state",
+    "span_name",
+    "span_kind",
+    "service_name",
+    "scope_name",
+    "scope_version",
+    "duration",
+    "status_code",
+    "status_message"
+   ],
+   "sortfield_versions": {
+    "duration": {
+     "type": "",
+     "since": "8.0"
+    },
+    "parent_spanid": {
+     "type": "",
+     "since": "8.0"
+    },
+    "scope_name": {
+     "type": "",
+     "since": "8.0"
+    },
+    "scope_version": {
+     "type": "",
+     "since": "8.0"
+    },
+    "service_name": {
+     "type": "",
+     "since": "8.0"
+    },
+    "span_kind": {
+     "type": "",
+     "since": "8.0"
+    },
+    "span_name": {
+     "type": "",
+     "since": "8.0"
+    },
+    "spanid": {
+     "type": "",
+     "since": "8.0"
+    },
+    "status_code": {
+     "type": "",
+     "since": "8.0"
+    },
+    "status_message": {
+     "type": "",
+     "since": "8.0"
+    },
+    "timestamp": {
+     "type": "",
+     "since": "8.0"
+    },
+    "trace_state": {
+     "type": "",
+     "since": "8.0"
+    },
+    "traceid": {
+     "type": "",
+     "since": "8.0"
+    }
+   },
+   "common": [
+    "countOutput",
+    "excludeSearch",
+    "filter",
+    "limit",
+    "output",
+    "search",
+    "searchByAny",
+    "searchWildcardsEnabled",
+    "sortfield",
+    "sortorder",
+    "startSearch"
+   ],
+   "params": {
+    "max_duration": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "min_duration": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "offset": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "parent_spanids": {
+     "type": "string/array",
+     "since": "8.0"
+    },
+    "resource_attributes": {
+     "type": "object/array",
+     "since": "8.0"
+    },
+    "resource_attributes_evaltype": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "span_attributes": {
+     "type": "object/array",
+     "since": "8.0"
+    },
+    "span_attributes_evaltype": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "spanids": {
+     "type": "string/array",
+     "since": "8.0"
+    },
+    "time_from": {
+     "type": "timestamp",
+     "since": "8.0"
+    },
+    "time_till": {
+     "type": "timestamp",
+     "since": "8.0"
+    },
+    "traceids": {
+     "type": "string/array",
+     "since": "8.0"
+    }
+   },
+   "selects": {},
+   "filter_props": null,
+   "search_props": null,
+   "notes": [
+    "New in 8.0."
+   ]
+  },
+  "apmtrace.get": {
+   "object": "apmtrace",
+   "sortfield": [
+    "timestamp",
+    "traceid",
+    "spanid",
+    "trace_state",
+    "span_name",
+    "span_kind",
+    "service_name",
+    "scope_name",
+    "scope_version",
+    "duration",
+    "status_code",
+    "status_message"
+   ],
+   "sortfield_versions": {
+    "duration": {
+     "type": "",
+     "since": "8.0"
+    },
+    "scope_name": {
+     "type": "",
+     "since": "8.0"
+    },
+    "scope_version": {
+     "type": "",
+     "since": "8.0"
+    },
+    "service_name": {
+     "type": "",
+     "since": "8.0"
+    },
+    "span_kind": {
+     "type": "",
+     "since": "8.0"
+    },
+    "span_name": {
+     "type": "",
+     "since": "8.0"
+    },
+    "spanid": {
+     "type": "",
+     "since": "8.0"
+    },
+    "status_code": {
+     "type": "",
+     "since": "8.0"
+    },
+    "status_message": {
+     "type": "",
+     "since": "8.0"
+    },
+    "timestamp": {
+     "type": "",
+     "since": "8.0"
+    },
+    "trace_state": {
+     "type": "",
+     "since": "8.0"
+    },
+    "traceid": {
+     "type": "",
+     "since": "8.0"
+    }
+   },
+   "common": [
+    "countOutput",
+    "excludeSearch",
+    "filter",
+    "limit",
+    "output",
+    "search",
+    "searchByAny",
+    "searchWildcardsEnabled",
+    "sortfield",
+    "sortorder",
+    "startSearch"
+   ],
+   "params": {
+    "max_duration": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "min_duration": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "offset": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "resource_attributes": {
+     "type": "object/array",
+     "since": "8.0"
+    },
+    "resource_attributes_evaltype": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "span_attributes": {
+     "type": "object/array",
+     "since": "8.0"
+    },
+    "span_attributes_evaltype": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "time_from": {
+     "type": "timestamp",
+     "since": "8.0"
+    },
+    "time_till": {
+     "type": "timestamp",
+     "since": "8.0"
+    },
+    "traceids": {
+     "type": "string/array",
+     "since": "8.0"
+    }
+   },
+   "selects": {},
+   "filter_props": null,
+   "search_props": null,
+   "notes": [
+    "New in 8.0."
+   ]
+  },
   "auditlog.get": {
    "object": "auditlog",
    "sortfield": [
@@ -237,6 +772,89 @@
    "notes": [
     "singleton method: only output is listed in the parameter table; no filter/search/sortfield",
     "autoregistration pages exist on 5.0; all properties/parameters present since 5.0"
+   ]
+  },
+  "ceprule.get": {
+   "object": "ceprule",
+   "sortfield": [
+    "cep_ruleid",
+    "name",
+    "stop",
+    "sortorder",
+    "status"
+   ],
+   "sortfield_versions": {
+    "cep_ruleid": {
+     "type": "",
+     "since": "8.0"
+    },
+    "name": {
+     "type": "",
+     "since": "8.0"
+    },
+    "sortorder": {
+     "type": "",
+     "since": "8.0"
+    },
+    "status": {
+     "type": "",
+     "since": "8.0"
+    },
+    "stop": {
+     "type": "",
+     "since": "8.0"
+    }
+   },
+   "common": [
+    "countOutput",
+    "editable",
+    "excludeSearch",
+    "filter",
+    "limit",
+    "output",
+    "preservekeys",
+    "search",
+    "searchByAny",
+    "searchWildcardsEnabled",
+    "sortfield",
+    "sortorder",
+    "startSearch"
+   ],
+   "params": {
+    "cep_ruleids": {
+     "type": "ID/array",
+     "since": "8.0"
+    }
+   },
+   "selects": {
+    "selectFilter": {
+     "type": "query",
+     "since": "8.0"
+    },
+    "selectOperations": {
+     "type": "query",
+     "since": "8.0"
+    },
+    "selectWindow": {
+     "type": "query",
+     "since": "8.0"
+    }
+   },
+   "filter_props": [
+    "cep_ruleid",
+    "name",
+    "window_type",
+    "stop",
+    "sortorder",
+    "status"
+   ],
+   "search_props": [
+    "name",
+    "description",
+    "error"
+   ],
+   "notes": [
+    "Not on the 8.0.0rc2 reference pages; from CCepRule.php, verified live."
    ]
   },
   "connector.get": {
@@ -412,6 +1030,61 @@
    "search_props": null,
    "notes": [
     "selectDRules is listed on the 6.0, 7.0, 7.2, 7.4 and 8.0 get pages but absent from the 6.2 and 6.4 pages; since set to 6.0 (not on the 5.0 page)"
+   ]
+  },
+  "device.get": {
+   "object": "device",
+   "sortfield": [
+    "deviceid",
+    "name"
+   ],
+   "sortfield_versions": {
+    "deviceid": {
+     "type": "",
+     "since": "8.0"
+    },
+    "name": {
+     "type": "",
+     "since": "8.0"
+    }
+   },
+   "common": [
+    "countOutput",
+    "excludeSearch",
+    "filter",
+    "limit",
+    "output",
+    "preservekeys",
+    "search",
+    "searchByAny",
+    "searchWildcardsEnabled",
+    "sortfield",
+    "sortorder",
+    "startSearch"
+   ],
+   "params": {
+    "deviceids": {
+     "type": "ID/array",
+     "since": "8.0"
+    },
+    "roleids": {
+     "type": "ID/array",
+     "since": "8.0"
+    },
+    "userids": {
+     "type": "ID/array",
+     "since": "8.0"
+    },
+    "usrgrpids": {
+     "type": "ID/array",
+     "since": "8.0"
+    }
+   },
+   "selects": {},
+   "filter_props": null,
+   "search_props": null,
+   "notes": [
+    "New in 8.0."
    ]
   },
   "dhost.get": {
@@ -1516,6 +2189,75 @@
     "selectDiscoveries: marked deprecated on pages 7.4-8.0 (deprecated, please use `selectDiscoveryRules` instead.)",
     "selectGroups: marked deprecated on pages 6.2-7.0 (deprecated, please use `selectHostGroups` instead.)",
     "selectHostDiscovery: marked deprecated on pages 7.4-8.0 (deprecated, please use `selectDiscoveryData` instead.)"
+   ]
+  },
+  "hostdashboard.get": {
+   "object": "hostdashboard",
+   "sortfield": [
+    "hostid",
+    "dashboardid",
+    "name"
+   ],
+   "sortfield_versions": {
+    "dashboardid": {
+     "type": "",
+     "since": "7.0"
+    },
+    "hostid": {
+     "type": "",
+     "since": "7.0"
+    },
+    "name": {
+     "type": "",
+     "since": "7.0"
+    }
+   },
+   "common": [
+    "countOutput",
+    "editable",
+    "excludeSearch",
+    "filter",
+    "limit",
+    "output",
+    "search",
+    "searchByAny",
+    "searchWildcardsEnabled",
+    "sortfield",
+    "sortorder",
+    "startSearch"
+   ],
+   "params": {
+    "dashboardids": {
+     "type": "ID/array",
+     "since": "7.0"
+    },
+    "groupCount": {
+     "type": "flag",
+     "since": "7.0"
+    },
+    "hostids": {
+     "type": "ID/array",
+     "since": "7.0"
+    }
+   },
+   "selects": {
+    "selectPages": {
+     "type": "query",
+     "since": "7.0"
+    }
+   },
+   "filter_props": [
+    "dashboardid",
+    "name",
+    "display_period",
+    "auto_start",
+    "templateid"
+   ],
+   "search_props": [
+    "name"
+   ],
+   "notes": [
+    "Not on the reference pages; from CHostDashboard.php (7.0+), verified live on 7.4. hostids is required."
    ]
   },
   "hostgroup.get": {
@@ -3006,6 +3748,159 @@
     "Not a classic get method; sortfield and common left empty. 7.0+ signature: object/array of objects {hostid (required, must be unique), scriptid, manualinput}. On 5.0, 6.0, 6.2, 6.4 the page documents \"object script.getscriptsbyhosts(array hostIds)\" with a single parameter \"(string/array) IDs of hosts to return scripts for\" and no parameter table; the named parameters are therefore marked since 7.0."
    ]
   },
+  "serverinfo.get": {
+   "object": "serverinfo",
+   "sortfield": [],
+   "sortfield_versions": {},
+   "common": [
+    "output"
+   ],
+   "params": {
+    "serverid": {
+     "type": "ID",
+     "since": "8.0"
+    }
+   },
+   "selects": {},
+   "filter_props": null,
+   "search_props": null,
+   "notes": [
+    "New in 8.0."
+   ]
+  },
+  "service.get": {
+   "object": "service",
+   "sortfield": [
+    "created_at",
+    "name",
+    "serviceid",
+    "sortorder",
+    "status"
+   ],
+   "sortfield_versions": {
+    "created_at": {
+     "type": "",
+     "since": "6.0"
+    },
+    "serviceid": {
+     "type": "",
+     "since": "6.0"
+    },
+    "status": {
+     "type": "",
+     "since": "6.0"
+    }
+   },
+   "common": [
+    "countOutput",
+    "editable",
+    "excludeSearch",
+    "filter",
+    "limit",
+    "output",
+    "preservekeys",
+    "search",
+    "searchByAny",
+    "searchWildcardsEnabled",
+    "sortfield",
+    "sortorder",
+    "startSearch"
+   ],
+   "params": {
+    "childids": {
+     "type": "ID/array"
+    },
+    "deep_parentids": {
+     "type": "flag",
+     "since": "6.0"
+    },
+    "evaltype": {
+     "type": "integer",
+     "since": "6.0"
+    },
+    "parentids": {
+     "type": "ID/array"
+    },
+    "problem_tags": {
+     "type": "object/array",
+     "since": "6.0"
+    },
+    "serviceids": {
+     "type": "ID/array"
+    },
+    "slaids": {
+     "type": "ID/array",
+     "since": "6.0"
+    },
+    "tags": {
+     "type": "object/array",
+     "since": "6.0"
+    },
+    "without_problem_tags": {
+     "type": "flag",
+     "since": "6.0"
+    }
+   },
+   "selects": {
+    "selectAlarms": {
+     "type": "query",
+     "removed": "6.0"
+    },
+    "selectChildren": {
+     "type": "query",
+     "since": "6.0"
+    },
+    "selectDependencies": {
+     "type": "query",
+     "removed": "6.0"
+    },
+    "selectParent": {
+     "type": "query",
+     "removed": "6.0"
+    },
+    "selectParentDependencies": {
+     "type": "query",
+     "removed": "6.0"
+    },
+    "selectParents": {
+     "type": "query",
+     "since": "6.0"
+    },
+    "selectProblemEvents": {
+     "type": "query",
+     "since": "6.0"
+    },
+    "selectProblemTags": {
+     "type": "query",
+     "since": "6.0"
+    },
+    "selectStatusRules": {
+     "type": "query",
+     "since": "6.0"
+    },
+    "selectStatusTimeline": {
+     "type": "object/array",
+     "since": "6.0"
+    },
+    "selectTags": {
+     "type": "query",
+     "since": "6.0"
+    },
+    "selectTimes": {
+     "type": "query",
+     "removed": "6.0"
+    },
+    "selectTrigger": {
+     "type": "query",
+     "removed": "6.0"
+    }
+   },
+   "filter_props": null,
+   "search_props": null,
+   "notes": [
+    "Rewritten in 6.0: the 5.x parameters (triggerids, selectParent, selectDependencies, selectTimes, selectAlarms, selectTrigger) are gone and the tag/problem-tag/status-rule model arrived."
+   ]
+  },
   "settings.get": {
    "object": "settings",
    "sortfield": [],
@@ -4220,6 +5115,444 @@
     "Property set unchanged 5.0-8.0; no property marked read-only in the doc (alert has only a get method)."
    ]
   },
+  "apmlog": {
+   "props": {
+    "body": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "event_name": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "log_attributes": {
+     "type": "object",
+     "since": "8.0",
+     "readonly": true
+    },
+    "resource_attributes": {
+     "type": "object",
+     "since": "8.0",
+     "readonly": true
+    },
+    "resource_schema_url": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "scope_attributes": {
+     "type": "object",
+     "since": "8.0",
+     "readonly": true
+    },
+    "scope_name": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "scope_schema_url": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "scope_version": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "service_name": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "severity_number": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "severity_text": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "spanid": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "timestamp": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "trace_flags": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "traceid": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    }
+   },
+   "notes": [
+    "New in 8.0."
+   ]
+  },
+  "apmmetric": {
+   "props": {
+    "aggregation_temporality": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "attributes": {
+     "type": "object",
+     "since": "8.0",
+     "readonly": true
+    },
+    "bucket_counts": {
+     "type": "array",
+     "since": "8.0",
+     "readonly": true
+    },
+    "count": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "exemplars": {
+     "type": "array",
+     "since": "8.0",
+     "readonly": true
+    },
+    "explicit_bounds": {
+     "type": "array",
+     "since": "8.0",
+     "readonly": true
+    },
+    "flags": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "is_monotonic": {
+     "type": "boolean",
+     "since": "8.0",
+     "readonly": true
+    },
+    "max": {
+     "type": "float",
+     "since": "8.0",
+     "readonly": true
+    },
+    "metric_description": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "metric_name": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "metric_unit": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "min": {
+     "type": "float",
+     "since": "8.0",
+     "readonly": true
+    },
+    "negative_bucket_counts": {
+     "type": "array",
+     "since": "8.0",
+     "readonly": true
+    },
+    "negative_offset": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "positive_bucket_counts": {
+     "type": "array",
+     "since": "8.0",
+     "readonly": true
+    },
+    "positive_offset": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "resource_attributes": {
+     "type": "object",
+     "since": "8.0",
+     "readonly": true
+    },
+    "resource_schema_url": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "scale": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "scope_attributes": {
+     "type": "object",
+     "since": "8.0",
+     "readonly": true
+    },
+    "scope_name": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "scope_schema_url": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "scope_version": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "service_name": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "start_time_unix": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "sum": {
+     "type": "float",
+     "since": "8.0",
+     "readonly": true
+    },
+    "time_unix": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "type": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "value": {
+     "type": "float",
+     "since": "8.0",
+     "readonly": true
+    },
+    "zero_count": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    }
+   },
+   "notes": [
+    "New in 8.0."
+   ]
+  },
+  "apmspan": {
+   "props": {
+    "duration": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "events": {
+     "type": "array",
+     "since": "8.0",
+     "readonly": true
+    },
+    "links": {
+     "type": "array",
+     "since": "8.0",
+     "readonly": true
+    },
+    "parent_spanid": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "resource_attributes": {
+     "type": "object",
+     "since": "8.0",
+     "readonly": true
+    },
+    "scope_name": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "scope_version": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "service_name": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "span_attributes": {
+     "type": "object",
+     "since": "8.0",
+     "readonly": true
+    },
+    "span_kind": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "span_name": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "spanid": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "status_code": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "status_message": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "timestamp": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "trace_state": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "traceid": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    }
+   },
+   "notes": [
+    "New in 8.0."
+   ]
+  },
+  "apmtrace": {
+   "props": {
+    "duration": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "error_count": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "events": {
+     "type": "array",
+     "since": "8.0",
+     "readonly": true
+    },
+    "links": {
+     "type": "array",
+     "since": "8.0",
+     "readonly": true
+    },
+    "resource_attributes": {
+     "type": "object",
+     "since": "8.0",
+     "readonly": true
+    },
+    "scope_name": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "scope_version": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "service_name": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "span_attributes": {
+     "type": "object",
+     "since": "8.0",
+     "readonly": true
+    },
+    "span_count": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "span_kind": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "span_name": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "spanid": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "status_code": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "status_message": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "timestamp": {
+     "type": "integer",
+     "since": "8.0",
+     "readonly": true
+    },
+    "trace_state": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "traceid": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    }
+   },
+   "notes": [
+    "New in 8.0."
+   ]
+  },
   "auditlog": {
    "props": {
     "action": {
@@ -4469,6 +5802,62 @@
    },
    "notes": []
   },
+  "ceprule": {
+   "props": {
+    "cep_ruleid": {
+     "type": "ID",
+     "since": "8.0",
+     "readonly": true
+    },
+    "description": {
+     "type": "text",
+     "since": "8.0"
+    },
+    "error": {
+     "type": "string",
+     "since": "8.0",
+     "readonly": true
+    },
+    "name": {
+     "type": "string",
+     "since": "8.0"
+    },
+    "sortorder": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "status": {
+     "type": "integer",
+     "since": "8.0",
+     "values": {
+      "0": "enabled",
+      "1": "disabled"
+     }
+    },
+    "stop": {
+     "type": "integer",
+     "since": "8.0",
+     "values": {
+      "0": "continue",
+      "1": "stop processing"
+     }
+    },
+    "window_type": {
+     "type": "integer",
+     "since": "8.0",
+     "values": {
+      "0": "none",
+      "1": "simple window",
+      "2": "cause and symptom",
+      "3": "simple window once",
+      "4": "pattern match"
+     }
+    }
+   },
+   "notes": [
+    "From CCepRule::OUTPUT_FIELDS."
+   ]
+  },
   "connector": {
    "props": {
     "attempt_interval": {
@@ -4618,13 +6007,13 @@
     },
     "uuid": {
      "type": "string",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4",
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0",
      "no_output": true
     }
    },
    "notes": [
     "display_period and auto_start since 6.0 (5.0 page: dashboardid, name, userid, private only).",
-    "uuid: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4"
+    "uuid: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0"
    ]
   },
   "dcheck": {
@@ -4687,6 +6076,41 @@
     "dcheckid and druleid are marked (readonly) on the 5.0-6.2 pages; from 6.4 the property table carries no read-only mark for them (readonly recorded from 7.4 = false)"
    ]
   },
+  "device": {
+   "props": {
+    "activated_at": {
+     "type": "timestamp",
+     "since": "8.0"
+    },
+    "deviceid": {
+     "type": "ID",
+     "since": "8.0"
+    },
+    "lastaccess": {
+     "type": "timestamp",
+     "since": "8.0"
+    },
+    "name": {
+     "type": "string",
+     "since": "8.0"
+    },
+    "status": {
+     "type": "integer",
+     "since": "8.0"
+    },
+    "userid": {
+     "type": "ID",
+     "since": "8.0"
+    },
+    "uuid": {
+     "type": "string",
+     "since": "8.0"
+    }
+   },
+   "notes": [
+    "New in 8.0."
+   ]
+  },
   "dhost": {
    "props": {
     "dhostid": {
@@ -4726,7 +6150,7 @@
     },
     "discover": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "enabled_lifetime": {
      "type": "string",
@@ -4749,13 +6173,18 @@
     "follow_redirects": {
      "type": "integer"
     },
+    "granularity": {
+     "type": "string",
+     "observed": "8.0",
+     "since": "8.0"
+    },
     "headers": {
      "type": "array",
      "no_filter": true
     },
     "history": {
      "type": "string",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "hostid": {
      "type": "ID"
@@ -4768,7 +6197,7 @@
     },
     "inventory_link": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "ipmi_sensor": {
      "type": "string"
@@ -4792,7 +6221,12 @@
     },
     "logtimefmt": {
      "type": "string",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
+    },
+    "lookback_limit": {
+     "type": "string",
+     "observed": "8.0",
+     "since": "8.0"
     },
     "master_itemid": {
      "type": "ID"
@@ -4828,6 +6262,11 @@
     "publickey": {
      "type": "string"
     },
+    "query": {
+     "type": "array",
+     "observed": "8.0",
+     "since": "8.0"
+    },
     "query_fields": {
      "type": "array",
      "no_filter": true
@@ -4860,9 +6299,19 @@
     "status_codes": {
      "type": "string"
     },
+    "storage_mode": {
+     "type": "integer",
+     "observed": "8.0",
+     "since": "8.0"
+    },
     "templateid": {
      "type": "ID",
      "readonly": true
+    },
+    "time_shift": {
+     "type": "string",
+     "observed": "8.0",
+     "since": "8.0"
     },
     "timeout": {
      "type": "string"
@@ -4872,14 +6321,14 @@
     },
     "trends": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "type": {
      "type": "integer"
     },
     "units": {
      "type": "string",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "url": {
      "type": "string"
@@ -4893,11 +6342,11 @@
     },
     "value_type": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "valuemapid": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "verify_host": {
      "type": "integer"
@@ -4907,14 +6356,19 @@
     }
    },
    "notes": [
-    "discover: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "history: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "inventory_link: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "logtimefmt: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "trends: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "units: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "value_type: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "valuemapid: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4"
+    "discover: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "granularity: not on the reference page, returned by Zabbix 8.0",
+    "history: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "inventory_link: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "logtimefmt: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "lookback_limit: not on the reference page, returned by Zabbix 8.0",
+    "query: not on the reference page, returned by Zabbix 8.0",
+    "storage_mode: not on the reference page, returned by Zabbix 8.0",
+    "time_shift: not on the reference page, returned by Zabbix 8.0",
+    "trends: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "units: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "value_type: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "valuemapid: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0"
    ]
   },
   "discoveryruleprototype": {
@@ -4938,7 +6392,7 @@
     },
     "discover": {
      "type": "integer",
-     "observed": "7.4",
+     "observed": "7.4,8.0",
      "since": "7.4"
     },
     "enabled_lifetime": {
@@ -4965,6 +6419,11 @@
      "type": "integer",
      "since": "7.4"
     },
+    "granularity": {
+     "type": "string",
+     "observed": "8.0",
+     "since": "8.0"
+    },
     "headers": {
      "type": "array",
      "since": "7.4",
@@ -4972,7 +6431,7 @@
     },
     "history": {
      "type": "string",
-     "observed": "7.4",
+     "observed": "7.4,8.0",
      "since": "7.4"
     },
     "hostid": {
@@ -4989,7 +6448,7 @@
     },
     "inventory_link": {
      "type": "integer",
-     "observed": "7.4",
+     "observed": "7.4,8.0",
      "since": "7.4"
     },
     "ipmi_sensor": {
@@ -5019,8 +6478,13 @@
     },
     "logtimefmt": {
      "type": "string",
-     "observed": "7.4",
+     "observed": "7.4,8.0",
      "since": "7.4"
+    },
+    "lookback_limit": {
+     "type": "string",
+     "observed": "8.0",
+     "since": "8.0"
     },
     "master_itemid": {
      "type": "ID",
@@ -5064,6 +6528,11 @@
     "publickey": {
      "type": "string",
      "since": "7.4"
+    },
+    "query": {
+     "type": "array",
+     "observed": "8.0",
+     "since": "8.0"
     },
     "query_fields": {
      "type": "array",
@@ -5114,10 +6583,20 @@
      "type": "string",
      "since": "7.4"
     },
+    "storage_mode": {
+     "type": "integer",
+     "observed": "8.0",
+     "since": "8.0"
+    },
     "templateid": {
      "type": "ID",
      "since": "7.4",
      "readonly": true
+    },
+    "time_shift": {
+     "type": "string",
+     "observed": "8.0",
+     "since": "8.0"
     },
     "timeout": {
      "type": "string",
@@ -5129,7 +6608,7 @@
     },
     "trends": {
      "type": "string",
-     "observed": "7.4",
+     "observed": "7.4,8.0",
      "since": "7.4"
     },
     "type": {
@@ -5138,7 +6617,7 @@
     },
     "units": {
      "type": "string",
-     "observed": "7.4",
+     "observed": "7.4,8.0",
      "since": "7.4"
     },
     "url": {
@@ -5155,12 +6634,12 @@
     },
     "value_type": {
      "type": "integer",
-     "observed": "7.4",
+     "observed": "7.4,8.0",
      "since": "7.4"
     },
     "valuemapid": {
      "type": "integer",
-     "observed": "7.4",
+     "observed": "7.4,8.0",
      "since": "7.4"
     },
     "verify_host": {
@@ -5175,14 +6654,19 @@
    "notes": [
     "object page does not exist for versions: 5.0, 6.0, 6.2, 6.4, 7.0, 7.2",
     "object introduced in 7.4; all properties since 7.4",
-    "discover: not on the reference page, returned by Zabbix 7.4",
-    "history: not on the reference page, returned by Zabbix 7.4",
-    "inventory_link: not on the reference page, returned by Zabbix 7.4",
-    "logtimefmt: not on the reference page, returned by Zabbix 7.4",
-    "trends: not on the reference page, returned by Zabbix 7.4",
-    "units: not on the reference page, returned by Zabbix 7.4",
-    "value_type: not on the reference page, returned by Zabbix 7.4",
-    "valuemapid: not on the reference page, returned by Zabbix 7.4"
+    "discover: not on the reference page, returned by Zabbix 7.4, 8.0",
+    "granularity: not on the reference page, returned by Zabbix 8.0",
+    "history: not on the reference page, returned by Zabbix 7.4, 8.0",
+    "inventory_link: not on the reference page, returned by Zabbix 7.4, 8.0",
+    "logtimefmt: not on the reference page, returned by Zabbix 7.4, 8.0",
+    "lookback_limit: not on the reference page, returned by Zabbix 8.0",
+    "query: not on the reference page, returned by Zabbix 8.0",
+    "storage_mode: not on the reference page, returned by Zabbix 8.0",
+    "time_shift: not on the reference page, returned by Zabbix 8.0",
+    "trends: not on the reference page, returned by Zabbix 7.4, 8.0",
+    "units: not on the reference page, returned by Zabbix 7.4, 8.0",
+    "value_type: not on the reference page, returned by Zabbix 7.4, 8.0",
+    "valuemapid: not on the reference page, returned by Zabbix 7.4, 8.0"
    ]
   },
   "drule": {
@@ -5281,6 +6765,11 @@
      "type": "ID",
      "since": "6.4"
     },
+    "cep_ruleid": {
+     "type": "integer",
+     "observed": "8.0",
+     "since": "8.0"
+    },
     "clock": {
      "type": "timestamp"
     },
@@ -5290,6 +6779,11 @@
     },
     "eventid": {
      "type": "ID"
+    },
+    "flags": {
+     "type": "integer",
+     "observed": "8.0",
+     "since": "8.0"
     },
     "name": {
      "type": "string"
@@ -5335,7 +6829,9 @@
     }
    },
    "notes": [
-    "cause_eventid since 6.4. urls type on the 6.2 page is written \"array of Media type URLs\". 7.0+ pages type ID columns as \"ID\" (string on 5.0-6.4)."
+    "cause_eventid since 6.4. urls type on the 6.2 page is written \"array of Media type URLs\". 7.0+ pages type ID columns as \"ID\" (string on 5.0-6.4).",
+    "cep_ruleid: not on the reference page, returned by Zabbix 8.0",
+    "flags: not on the reference page, returned by Zabbix 8.0"
    ]
   },
   "globalmacro": {
@@ -5504,7 +7000,7 @@
     },
     "show_triggers": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "show_work_period": {
      "type": "integer"
@@ -5540,7 +7036,7 @@
     }
    },
    "notes": [
-    "show_triggers: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4"
+    "show_triggers: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0"
    ]
   },
   "hanode": {
@@ -5618,7 +7114,7 @@
     },
     "custom_interfaces": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "description": {
      "type": "text"
@@ -5752,7 +7248,7 @@
     },
     "readme": {
      "type": "string",
-     "observed": "7.4",
+     "observed": "7.4,8.0",
      "since": "7.4",
      "no_filter": true
     },
@@ -5781,7 +7277,7 @@
     },
     "templateid": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "tls_accept": {
      "type": "integer"
@@ -5807,21 +7303,21 @@
     },
     "uuid": {
      "type": "string",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "vendor_name": {
      "type": "string",
-     "observed": "6.4,7.0,7.2,7.4",
+     "observed": "6.4,7.0,7.2,7.4,8.0",
      "since": "6.4"
     },
     "vendor_version": {
      "type": "string",
-     "observed": "6.4,7.0,7.2,7.4",
+     "observed": "6.4,7.0,7.2,7.4,8.0",
      "since": "6.4"
     },
     "wizard_ready": {
      "type": "integer",
-     "observed": "7.4",
+     "observed": "7.4,8.0",
      "since": "7.4"
     }
    },
@@ -5831,15 +7327,52 @@
     "7.0 replaced proxy_hostid with monitored_by + proxyid + proxy_groupid and added read-only assigned_proxyid",
     "tls_psk is write-only (7.x pages); inventory fields are a nested 'Host inventory' sub-object and not listed here",
     "auto_compress: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4",
-    "custom_interfaces: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
+    "custom_interfaces: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
     "lastaccess: not on the reference page, returned by Zabbix 6.0",
     "proxy_address: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4",
-    "readme: not on the reference page, returned by Zabbix 7.4",
-    "templateid: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "uuid: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "vendor_name: not on the reference page, returned by Zabbix 6.4, 7.0, 7.2, 7.4",
-    "vendor_version: not on the reference page, returned by Zabbix 6.4, 7.0, 7.2, 7.4",
-    "wizard_ready: not on the reference page, returned by Zabbix 7.4"
+    "readme: not on the reference page, returned by Zabbix 7.4, 8.0",
+    "templateid: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "uuid: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "vendor_name: not on the reference page, returned by Zabbix 6.4, 7.0, 7.2, 7.4, 8.0",
+    "vendor_version: not on the reference page, returned by Zabbix 6.4, 7.0, 7.2, 7.4, 8.0",
+    "wizard_ready: not on the reference page, returned by Zabbix 7.4, 8.0"
+   ]
+  },
+  "hostdashboard": {
+   "props": {
+    "auto_start": {
+     "type": "integer",
+     "since": "7.0",
+     "readonly": true
+    },
+    "dashboardid": {
+     "type": "ID",
+     "since": "7.0",
+     "readonly": true
+    },
+    "display_period": {
+     "type": "integer",
+     "since": "7.0",
+     "readonly": true
+    },
+    "hostid": {
+     "type": "ID",
+     "since": "7.0",
+     "readonly": true
+    },
+    "name": {
+     "type": "string",
+     "since": "7.0",
+     "readonly": true
+    },
+    "templateid": {
+     "type": "ID",
+     "since": "7.0",
+     "readonly": true
+    }
+   },
+   "notes": [
+    "From CHostDashboard::OUTPUT_FIELDS; read-only object."
    ]
   },
   "hostgroup": {
@@ -6205,12 +7738,12 @@
     },
     "enabled_lifetime": {
      "type": "integer",
-     "observed": "7.0,7.2,7.4",
+     "observed": "7.0,7.2,7.4,8.0",
      "since": "7.0"
     },
     "enabled_lifetime_type": {
      "type": "integer",
-     "observed": "7.0,7.2,7.4",
+     "observed": "7.0,7.2,7.4,8.0",
      "since": "7.0"
     },
     "error": {
@@ -6220,7 +7753,7 @@
     },
     "evaltype": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "flags": {
      "type": "integer",
@@ -6231,7 +7764,7 @@
     },
     "formula": {
      "type": "string",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "granularity": {
      "type": "string",
@@ -6287,11 +7820,11 @@
     },
     "lifetime": {
      "type": "string",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "lifetime_type": {
      "type": "integer",
-     "observed": "7.0,7.2,7.4",
+     "observed": "7.0,7.2,7.4,8.0",
      "since": "7.0"
     },
     "logtimefmt": {
@@ -6348,7 +7881,8 @@
     },
     "query": {
      "type": "object",
-     "since": "8.0"
+     "since": "8.0",
+     "no_filter": true
     },
     "query_fields": {
      "type": "array",
@@ -6432,12 +7966,12 @@
     "ID-typed properties (itemid, hostid, interfaceid, templateid, valuemapid, master_itemid) typed 'string'/'integer' before 7.0; headers typed 'object' before 7.0, 'array' from 7.0; parameters typed 'array' on 6.x pages, 'object/array' from 7.0",
     "readonly reflects unconditional read-only only; many properties are documented as 'read-only for inherited/discovered objects' and are reported as readonly: false",
     "8.0 added granularity, lookback_limit, time_shift and query (telemetry); 7.0 added read-only name_resolved; 6.0 added uuid and parameters; sub-objects (HTTP header, query field, tag, preprocessing, telemetry query) not listed",
-    "enabled_lifetime: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4",
-    "enabled_lifetime_type: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4",
-    "evaltype: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "formula: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "lifetime: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "lifetime_type: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4"
+    "enabled_lifetime: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4, 8.0",
+    "enabled_lifetime_type: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4, 8.0",
+    "evaltype: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "formula: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "lifetime: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "lifetime_type: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4, 8.0"
    ]
   },
   "itemprototype": {
@@ -6460,17 +7994,17 @@
     },
     "enabled_lifetime": {
      "type": "integer",
-     "observed": "7.0,7.2,7.4",
+     "observed": "7.0,7.2,7.4,8.0",
      "since": "7.0"
     },
     "enabled_lifetime_type": {
      "type": "integer",
-     "observed": "7.0,7.2,7.4",
+     "observed": "7.0,7.2,7.4,8.0",
      "since": "7.0"
     },
     "evaltype": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "flags": {
      "type": "integer",
@@ -6482,7 +8016,7 @@
     },
     "formula": {
      "type": "string",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "granularity": {
      "type": "string",
@@ -6506,7 +8040,7 @@
     },
     "inventory_link": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "ipmi_sensor": {
      "type": "string"
@@ -6523,11 +8057,11 @@
     },
     "lifetime": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "lifetime_type": {
      "type": "integer",
-     "observed": "7.0,7.2,7.4",
+     "observed": "7.0,7.2,7.4,8.0",
      "since": "7.0"
     },
     "logtimefmt": {
@@ -6573,7 +8107,8 @@
     },
     "query": {
      "type": "object",
-     "since": "8.0"
+     "since": "8.0",
+     "no_filter": true
     },
     "query_fields": {
      "type": "array",
@@ -6658,13 +8193,13 @@
    "notes": [
     "ruleid listed as a property on the 5.0-6.2 pages (required for create, readonly for update); from 6.4 it is no longer in the object table (passed only to itemprototype.create)",
     "8.0 page adds granularity, lookback_limit, query, time_shift",
-    "enabled_lifetime: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4",
-    "enabled_lifetime_type: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4",
-    "evaltype: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "formula: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "inventory_link: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "lifetime: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "lifetime_type: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4"
+    "enabled_lifetime: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4, 8.0",
+    "enabled_lifetime_type: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4, 8.0",
+    "evaltype: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "formula: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "inventory_link: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "lifetime: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "lifetime_type: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4, 8.0"
    ]
   },
   "maintenance": {
@@ -7035,6 +8570,11 @@
      "type": "ID",
      "since": "6.4"
     },
+    "cep_ruleid": {
+     "type": "integer",
+     "observed": "8.0",
+     "since": "8.0"
+    },
     "clock": {
      "type": "timestamp"
     },
@@ -7043,6 +8583,11 @@
     },
     "eventid": {
      "type": "ID"
+    },
+    "flags": {
+     "type": "integer",
+     "observed": "8.0",
+     "since": "8.0"
     },
     "name": {
      "type": "string"
@@ -7089,7 +8634,9 @@
     }
    },
    "notes": [
-    "cause_eventid since 6.4. 8.0 object table identical to 7.4."
+    "cause_eventid since 6.4. 8.0 object table identical to 7.4.",
+    "cep_ruleid: not on the reference page, returned by Zabbix 8.0",
+    "flags: not on the reference page, returned by Zabbix 8.0"
    ]
   },
   "proxy": {
@@ -7624,6 +9171,88 @@
     "scope, menu_path, authtype, username, password, publickey, privatekey, port, timeout, parameters since 6.0 (5.0 page lists only scriptid, command, name, confirmation, description, execute_on, groupid, host_access, type, usrgrpid); url, new_window since 6.4; manualinput* since 7.0."
    ]
   },
+  "serverinfo": {
+   "props": {
+    "lastaccess": {
+     "type": "timestamp",
+     "since": "8.0",
+     "readonly": true
+    },
+    "serverid": {
+     "type": "ID",
+     "since": "8.0",
+     "readonly": true
+    }
+   },
+   "notes": [
+    "New in 8.0. Properties from the return values table of serverinfo.get (no object page)."
+   ]
+  },
+  "service": {
+   "props": {
+    "algorithm": {
+     "type": "integer"
+    },
+    "created_at": {
+     "type": "integer",
+     "since": "6.0"
+    },
+    "description": {
+     "type": "string",
+     "since": "6.0"
+    },
+    "goodsla": {
+     "type": "float",
+     "removed": "6.0"
+    },
+    "name": {
+     "type": "string"
+    },
+    "propagation_rule": {
+     "type": "integer",
+     "since": "6.0"
+    },
+    "propagation_value": {
+     "type": "integer",
+     "since": "6.0"
+    },
+    "readonly": {
+     "type": "integer",
+     "since": "6.0",
+     "readonly": true
+    },
+    "serviceid": {
+     "type": "ID",
+     "readonly": true
+    },
+    "showsla": {
+     "type": "integer",
+     "removed": "6.0"
+    },
+    "sortorder": {
+     "type": "integer"
+    },
+    "status": {
+     "type": "integer",
+     "readonly": true
+    },
+    "triggerid": {
+     "type": "string",
+     "removed": "6.0"
+    },
+    "uuid": {
+     "type": "string",
+     "since": "6.0"
+    },
+    "weight": {
+     "type": "integer",
+     "since": "6.0"
+    }
+   },
+   "notes": [
+    "5.x properties (triggerid, goodsla, showsla) removed in 6.0; 6.0 added algorithm values, weight, propagation and tags."
+   ]
+  },
   "settings": {
    "props": {
     "alert_usrgrpid": {
@@ -7799,6 +9428,11 @@
      "type": "integer",
      "since": "5.2"
     },
+    "serverid": {
+     "type": "string",
+     "observed": "8.0",
+     "since": "8.0"
+    },
     "session_key": {
      "type": "string",
      "since": "5.2",
@@ -7938,7 +9572,8 @@
     "object page does not exist before 5.2; properties present on 5.2 page are marked since 5.2",
     "timeout_* rows share one type/description cell via rowspan on 7.0+ pages (type string); timeout_telemetry_query first listed on 8.0 page",
     "session_key listed on 5.2 page only; url and report_test_timeout first listed on 5.4 page",
-    "proxy_secrets_provider first listed on 7.4 page; device_link_timeout and apm_global_db first listed on 8.0 page"
+    "proxy_secrets_provider first listed on 7.4 page; device_link_timeout and apm_global_db first listed on 8.0 page",
+    "serverid: not on the reference page, returned by Zabbix 8.0"
    ]
   },
   "sla": {
@@ -8032,33 +9667,33 @@
     },
     "custom_interfaces": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "description": {
      "type": "text"
     },
     "flags": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "host": {
      "type": "string"
     },
     "ipmi_authtype": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "ipmi_password": {
      "type": "string",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "ipmi_privilege": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "ipmi_username": {
      "type": "string",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "lastaccess": {
      "type": "integer",
@@ -8067,23 +9702,23 @@
     },
     "maintenance_from": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "maintenance_status": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "maintenance_type": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "maintenanceid": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "monitored_by": {
      "type": "integer",
-     "observed": "7.0,7.2,7.4",
+     "observed": "7.0,7.2,7.4,8.0",
      "since": "7.0"
     },
     "name": {
@@ -8096,7 +9731,7 @@
     },
     "proxy_groupid": {
      "type": "integer",
-     "observed": "7.0,7.2,7.4",
+     "observed": "7.0,7.2,7.4,8.0",
      "since": "7.0"
     },
     "proxy_hostid": {
@@ -8106,7 +9741,7 @@
     },
     "proxyid": {
      "type": "integer",
-     "observed": "7.0,7.2,7.4",
+     "observed": "7.0,7.2,7.4,8.0",
      "since": "7.0"
     },
     "readme": {
@@ -8115,7 +9750,7 @@
     },
     "status": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "templateid": {
      "type": "ID",
@@ -8123,27 +9758,27 @@
     },
     "tls_accept": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "tls_connect": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "tls_issuer": {
      "type": "string",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "tls_psk": {
      "type": "string",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "tls_psk_identity": {
      "type": "string",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "tls_subject": {
      "type": "string",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4,8.0"
     },
     "uuid": {
      "type": "string",
@@ -8165,29 +9800,29 @@
    "notes": [
     "templateid typed 'string' before 7.0; uuid added 6.0; vendor_name/vendor_version added 6.4; readme and wizard_ready added 7.4; template tag sub-object not listed",
     "auto_compress: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4",
-    "custom_interfaces: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "flags: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "ipmi_authtype: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "ipmi_password: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "ipmi_privilege: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "ipmi_username: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
+    "custom_interfaces: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "flags: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "ipmi_authtype: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "ipmi_password: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "ipmi_privilege: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "ipmi_username: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
     "lastaccess: not on the reference page, returned by Zabbix 6.0",
-    "maintenance_from: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "maintenance_status: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "maintenance_type: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "maintenanceid: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "monitored_by: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4",
+    "maintenance_from: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "maintenance_status: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "maintenance_type: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "maintenanceid: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "monitored_by: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4, 8.0",
     "proxy_address: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4",
-    "proxy_groupid: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4",
+    "proxy_groupid: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4, 8.0",
     "proxy_hostid: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4",
-    "proxyid: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4",
-    "status: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "tls_accept: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "tls_connect: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "tls_issuer: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "tls_psk: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "tls_psk_identity: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4",
-    "tls_subject: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4"
+    "proxyid: not on the reference page, returned by Zabbix 7.0, 7.2, 7.4, 8.0",
+    "status: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "tls_accept: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "tls_connect: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "tls_issuer: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "tls_psk: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "tls_psk_identity: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0",
+    "tls_subject: not on the reference page, returned by Zabbix 6.0, 6.2, 6.4, 7.0, 7.2, 7.4, 8.0"
    ]
   },
   "templatedashboard": {
@@ -8424,7 +10059,10 @@
     },
     "error": {
      "type": "string",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4",
+     "removed": "8.0",
+     "no_filter": true,
+     "no_search": true
     },
     "event_name": {
      "type": "string",
@@ -8440,7 +10078,9 @@
     },
     "lastchange": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4",
+     "removed": "8.0",
+     "no_filter": true
     },
     "manual_close": {
      "type": "integer"
@@ -8459,7 +10099,9 @@
     },
     "state": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4",
+     "removed": "8.0",
+     "no_filter": true
     },
     "status": {
      "type": "integer"
@@ -8488,7 +10130,9 @@
     },
     "value": {
      "type": "integer",
-     "observed": "6.0,6.2,6.4,7.0,7.2,7.4"
+     "observed": "6.0,6.2,6.4,7.0,7.2,7.4",
+     "removed": "8.0",
+     "no_filter": true
     }
    },
    "notes": [
@@ -8523,6 +10167,11 @@
     },
     "autologout": {
      "type": "string"
+    },
+    "default_maintenance_period": {
+     "type": "string",
+     "observed": "8.0",
+     "since": "8.0"
     },
     "lang": {
      "type": "string"
@@ -8594,7 +10243,8 @@
     "property username: doc marks it read-only only conditionally (e.g. for provisioned users); readonly recorded as false",
     "type property (user type) listed on 5.0 page only; user types moved to roles (roleid) in 5.2, first fetched page without it is 6.0",
     "alias listed on 5.0 page, marked deprecated on 6.0/6.2 pages, no longer listed on 6.4 page; username replaces it from 6.0 page",
-    "passwd documented as write-only"
+    "passwd documented as write-only",
+    "default_maintenance_period: not on the reference page, returned by Zabbix 8.0"
    ]
   },
   "userdirectory": {
@@ -8650,7 +10300,8 @@
     },
     "idp_certificate": {
      "type": "string",
-     "since": "8.0"
+     "since": "8.0",
+     "no_output": true
     },
     "idp_certificate_hash": {
      "type": "string",
@@ -8729,7 +10380,8 @@
     },
     "sp_certificate": {
      "type": "string",
-     "since": "8.0"
+     "since": "8.0",
+     "no_output": true
     },
     "sp_certificate_hash": {
      "type": "string",
@@ -8742,7 +10394,8 @@
     },
     "sp_private_key": {
      "type": "string",
-     "since": "8.0"
+     "since": "8.0",
+     "no_output": true
     },
     "sp_private_key_hash": {
      "type": "string",
@@ -8901,6 +10554,8 @@
  },
  "sources": [
   "discoveryruleprototype pages for 5.0/6.0/6.2/6.4/7.0/7.2 returned HTTP 404 (object does not exist before 7.4)",
+  "frontend source 7.0 ... 8.0: ui/include/classes/api/services/CHostDashboard.php (no reference page)",
+  "frontend source 8.0.0rc2: ui/include/classes/api/services/CCepRule.php (no reference page in 8.0.0rc2)",
   "https://www.zabbix.com/documentation/5.0/en/manual/api/reference/action/get",
   "https://www.zabbix.com/documentation/5.0/en/manual/api/reference/action/object",
   "https://www.zabbix.com/documentation/5.0/en/manual/api/reference/alert/get",
@@ -8964,6 +10619,8 @@
   "https://www.zabbix.com/documentation/5.0/en/manual/api/reference/script/get",
   "https://www.zabbix.com/documentation/5.0/en/manual/api/reference/script/getscriptsbyhosts",
   "https://www.zabbix.com/documentation/5.0/en/manual/api/reference/script/object",
+  "https://www.zabbix.com/documentation/5.0/en/manual/api/reference/service/get",
+  "https://www.zabbix.com/documentation/5.0/en/manual/api/reference/service/object",
   "https://www.zabbix.com/documentation/5.0/en/manual/api/reference/task/get",
   "https://www.zabbix.com/documentation/5.0/en/manual/api/reference/task/object",
   "https://www.zabbix.com/documentation/5.0/en/manual/api/reference/template/get",
@@ -8988,6 +10645,8 @@
   "https://www.zabbix.com/documentation/5.2/en/manual/api/reference/housekeeping/object",
   "https://www.zabbix.com/documentation/5.2/en/manual/api/reference/role/get",
   "https://www.zabbix.com/documentation/5.2/en/manual/api/reference/role/object",
+  "https://www.zabbix.com/documentation/5.2/en/manual/api/reference/service/get",
+  "https://www.zabbix.com/documentation/5.2/en/manual/api/reference/service/object",
   "https://www.zabbix.com/documentation/5.2/en/manual/api/reference/settings/get",
   "https://www.zabbix.com/documentation/5.2/en/manual/api/reference/settings/object",
   "https://www.zabbix.com/documentation/5.4/en/manual/api/reference/authentication/get",
@@ -8996,6 +10655,8 @@
   "https://www.zabbix.com/documentation/5.4/en/manual/api/reference/housekeeping/object",
   "https://www.zabbix.com/documentation/5.4/en/manual/api/reference/role/get",
   "https://www.zabbix.com/documentation/5.4/en/manual/api/reference/role/object",
+  "https://www.zabbix.com/documentation/5.4/en/manual/api/reference/service/get",
+  "https://www.zabbix.com/documentation/5.4/en/manual/api/reference/service/object",
   "https://www.zabbix.com/documentation/5.4/en/manual/api/reference/settings/get",
   "https://www.zabbix.com/documentation/5.4/en/manual/api/reference/settings/object",
   "https://www.zabbix.com/documentation/5.4/en/manual/api/reference/token/get",
@@ -9075,6 +10736,8 @@
   "https://www.zabbix.com/documentation/6.0/en/manual/api/reference/script/get",
   "https://www.zabbix.com/documentation/6.0/en/manual/api/reference/script/getscriptsbyhosts",
   "https://www.zabbix.com/documentation/6.0/en/manual/api/reference/script/object",
+  "https://www.zabbix.com/documentation/6.0/en/manual/api/reference/service/get",
+  "https://www.zabbix.com/documentation/6.0/en/manual/api/reference/service/object",
   "https://www.zabbix.com/documentation/6.0/en/manual/api/reference/settings/get",
   "https://www.zabbix.com/documentation/6.0/en/manual/api/reference/settings/object",
   "https://www.zabbix.com/documentation/6.0/en/manual/api/reference/sla/get",
@@ -9177,6 +10840,8 @@
   "https://www.zabbix.com/documentation/6.2/en/manual/api/reference/script/get",
   "https://www.zabbix.com/documentation/6.2/en/manual/api/reference/script/getscriptsbyhosts",
   "https://www.zabbix.com/documentation/6.2/en/manual/api/reference/script/object",
+  "https://www.zabbix.com/documentation/6.2/en/manual/api/reference/service/get",
+  "https://www.zabbix.com/documentation/6.2/en/manual/api/reference/service/object",
   "https://www.zabbix.com/documentation/6.2/en/manual/api/reference/settings/get",
   "https://www.zabbix.com/documentation/6.2/en/manual/api/reference/settings/object",
   "https://www.zabbix.com/documentation/6.2/en/manual/api/reference/sla/get",
@@ -9288,6 +10953,8 @@
   "https://www.zabbix.com/documentation/6.4/en/manual/api/reference/script/getscriptsbyevents",
   "https://www.zabbix.com/documentation/6.4/en/manual/api/reference/script/getscriptsbyhosts",
   "https://www.zabbix.com/documentation/6.4/en/manual/api/reference/script/object",
+  "https://www.zabbix.com/documentation/6.4/en/manual/api/reference/service/get",
+  "https://www.zabbix.com/documentation/6.4/en/manual/api/reference/service/object",
   "https://www.zabbix.com/documentation/6.4/en/manual/api/reference/settings/get",
   "https://www.zabbix.com/documentation/6.4/en/manual/api/reference/settings/object",
   "https://www.zabbix.com/documentation/6.4/en/manual/api/reference/sla/get",
@@ -9403,6 +11070,8 @@
   "https://www.zabbix.com/documentation/7.0/en/manual/api/reference/script/getscriptsbyevents",
   "https://www.zabbix.com/documentation/7.0/en/manual/api/reference/script/getscriptsbyhosts",
   "https://www.zabbix.com/documentation/7.0/en/manual/api/reference/script/object",
+  "https://www.zabbix.com/documentation/7.0/en/manual/api/reference/service/get",
+  "https://www.zabbix.com/documentation/7.0/en/manual/api/reference/service/object",
   "https://www.zabbix.com/documentation/7.0/en/manual/api/reference/settings/get",
   "https://www.zabbix.com/documentation/7.0/en/manual/api/reference/settings/object",
   "https://www.zabbix.com/documentation/7.0/en/manual/api/reference/sla/get",
@@ -9518,6 +11187,8 @@
   "https://www.zabbix.com/documentation/7.2/en/manual/api/reference/script/getscriptsbyevents",
   "https://www.zabbix.com/documentation/7.2/en/manual/api/reference/script/getscriptsbyhosts",
   "https://www.zabbix.com/documentation/7.2/en/manual/api/reference/script/object",
+  "https://www.zabbix.com/documentation/7.2/en/manual/api/reference/service/get",
+  "https://www.zabbix.com/documentation/7.2/en/manual/api/reference/service/object",
   "https://www.zabbix.com/documentation/7.2/en/manual/api/reference/settings/get",
   "https://www.zabbix.com/documentation/7.2/en/manual/api/reference/settings/object",
   "https://www.zabbix.com/documentation/7.2/en/manual/api/reference/sla/get",
@@ -9635,6 +11306,8 @@
   "https://www.zabbix.com/documentation/7.4/en/manual/api/reference/script/getscriptsbyevents",
   "https://www.zabbix.com/documentation/7.4/en/manual/api/reference/script/getscriptsbyhosts",
   "https://www.zabbix.com/documentation/7.4/en/manual/api/reference/script/object",
+  "https://www.zabbix.com/documentation/7.4/en/manual/api/reference/service/get",
+  "https://www.zabbix.com/documentation/7.4/en/manual/api/reference/service/object",
   "https://www.zabbix.com/documentation/7.4/en/manual/api/reference/settings/get",
   "https://www.zabbix.com/documentation/7.4/en/manual/api/reference/settings/object",
   "https://www.zabbix.com/documentation/7.4/en/manual/api/reference/sla/get",
@@ -9670,6 +11343,14 @@
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/action/object",
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/alert/get",
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/alert/object",
+  "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/apmlog/get",
+  "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/apmlog/object",
+  "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/apmmetric/get",
+  "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/apmmetric/object",
+  "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/apmspan/get",
+  "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/apmspan/object",
+  "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/apmtrace/get",
+  "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/apmtrace/object",
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/auditlog/get",
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/auditlog/object",
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/authentication/get",
@@ -9684,6 +11365,8 @@
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/dashboard/object",
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/dcheck/get",
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/dcheck/object",
+  "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/device/get",
+  "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/device/object",
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/dhost/get",
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/dhost/object",
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/discoveryrule/get",
@@ -9752,6 +11435,9 @@
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/script/getscriptsbyevents",
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/script/getscriptsbyhosts",
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/script/object",
+  "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/serverinfo/get",
+  "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/service/get",
+  "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/service/object",
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/settings/get",
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/settings/object",
   "https://www.zabbix.com/documentation/8.0/en/manual/api/reference/sla/get",
